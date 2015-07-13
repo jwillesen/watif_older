@@ -1,0 +1,10 @@
+{
+  "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
+  "moduleFileExtensions": ["js", "jsx", "json"],
+  "testFileExtensions": ["js", "jsx"],
+  "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+
+  "globals": {
+    "__TEST__": true
+  }
+}

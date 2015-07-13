@@ -1,0 +1,5 @@
+export RUNNING_IN_POW=1
+if [ -f "$rvm_path/scripts/rvm" ]; then
+  source "$rvm_path/scripts/rvm"
+  cd .
+fi
