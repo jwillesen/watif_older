@@ -2,15 +2,13 @@ require('bootstrap/dist/js/bootstrap.js');
 if (typeof __TEST__ === 'undefined') require('bootstrap/dist/css/bootstrap.css');
 
 const React = require('react');
-const RB = require('react-bootstrap');
+const Router = require('react-router');
+
+const Routes = require('./Routes');
 
 document.addEventListener('DOMContentLoaded', () => {
-  React.render(
-    <div className="container-fluid">
-      <RB.Navbar brand={<a href="/">watif</a>} inverse />
-      <h1>Hello World!</h1>
-      <p>The answer is {gon.answer}</p>
-    </div>,
-    document.body
-  );
+
+  Router.run(Routes, Router.HistoryLocation, (Root) => {
+    React.render(<Root />, document.body);
+  });
 });
