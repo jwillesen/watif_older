@@ -1,10 +1,17 @@
 const React = require('react');
-const RB = require('react-bootstrap');
-const Navbar = RB.Navbar;
+const {Link} = require('react-router');
+const {Navbar, Nav} = require('react-bootstrap');
+const {NavItemLink} = require('react-router-bootstrap');
 
 class Navigation extends React.Component {
   render() {
-    return <Navbar brand={<a href="/">watif</a>} inverse />;
+    return (
+      <Navbar brand={<Link to="home">watif</Link>} inverse>
+        <Nav>
+          <NavItemLink to="browse">Browse</NavItemLink>
+        </Nav>
+      </Navbar>
+    );
   }
   
 };
