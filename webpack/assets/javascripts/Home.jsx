@@ -1,8 +1,7 @@
-const React = require('react')
-const RB = require('react-bootstrap');
-const Jumbotron = RB.Jumbotron;
+import React from 'react';
+import {Jumbotron} from 'react-bootstrap';
 
-class Home extends React.Component {
+export default class Home extends React.Component {
   render() {
     return (
       <Jumbotron>
@@ -13,5 +12,3 @@ class Home extends React.Component {
     );
   }
 };
-
-module.exports = Home;

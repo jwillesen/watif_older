@@ -1,9 +1,7 @@
-const React = require('react');
+import React from 'react';
 
-class Detail extends React.Component {
+export default class Detail extends React.Component {
   render() {
     return <p>details for book {this.props.params.bookId}</p>;
   }
 };
-
-module.exports = Detail;

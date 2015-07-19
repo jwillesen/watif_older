@@ -1,9 +1,9 @@
-const React = require('react');
+import React from 'react';
 
-const {Thumbnail, ButtonToolbar, Button} = require('react-bootstrap');
-const {ButtonLink} = require('react-router-bootstrap');
+import {Thumbnail, ButtonToolbar, Button} from 'react-bootstrap';
+import {ButtonLink} from 'react-router-bootstrap';
 
-class Card extends React.Component {
+export default class Card extends React.Component {
   render() {
     return(
       <Thumbnail src='images/duck.jpg' alt=''>
@@ -17,5 +17,3 @@ class Card extends React.Component {
     );
   }
 };
-
-module.exports = Card;

@@ -1,9 +1,9 @@
-const React = require('react');
-const RouteHandler = require('react-router').RouteHandler;
+import React from 'react';
+import {RouteHandler} from 'react-router';
 
-const Navigation = require('./Navigation');
+import Navigation from './Navigation';
 
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
       <div className="container-fluid">
@@ -13,5 +13,3 @@ class App extends React.Component {
     );
   }
 };
-
-module.exports = App;

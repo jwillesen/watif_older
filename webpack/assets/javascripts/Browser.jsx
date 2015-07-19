@@ -1,9 +1,9 @@
-const React = require('react');
-const {Grid, Row, Col} = require('react-bootstrap');
+import React from 'react';
+import {Grid, Row, Col} from 'react-bootstrap';
 
-const Card = require('./browser/Card');
+import Card from './browser/Card';
 
-class Browser extends React.Component {
+export default class Browser extends React.Component {
   render() {
     return (
       <Grid>
@@ -34,5 +34,3 @@ class Browser extends React.Component {
     );
   }
 };
-
-module.exports = Browser;

@@ -1,13 +1,11 @@
-const React = require('react');
-const Router = require('react-router');
-const Route = Router.Route;
-const DefaultRoute = Router.DefaultRoute;
+import React from 'react';
+import {Route, DefaultRoute} from 'react-router';
 
-const App = require('./App');
-const Home = require('./Home');
-const Browser = require('./Browser');
-const BookDetail = require('./book/Detail');
-const BookPlayer = require('./book/Player');
+import App from './App';
+import Home from './Home';
+import Browser from './Browser';
+import BookDetail from './book/Detail';
+import BookPlayer from './book/Player';
 
 const Routes = (
   <Route handler={App}>
@@ -20,4 +18,4 @@ const Routes = (
   </Route>
 );
 
-module.exports = Routes;
+export default Routes;

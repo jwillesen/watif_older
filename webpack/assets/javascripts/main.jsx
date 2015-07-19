@@ -1,10 +1,10 @@
 require('bootstrap/dist/js/bootstrap.js');
 if (typeof __TEST__ === 'undefined') require('bootstrap/dist/css/bootstrap.css');
 
-const React = require('react');
-const Router = require('react-router');
+import React from 'react';
+import Router from 'react-router';
 
-const Routes = require('./Routes');
+import Routes from './Routes';
 
 document.addEventListener('DOMContentLoaded', () => {
 
