@@ -39,3 +39,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end
+
+# local development file
+dev_local = File.expand_path('../development-local.rb', __FILE__)
+require dev_local if File.exists?(dev_local)
