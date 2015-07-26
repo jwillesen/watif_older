@@ -13,7 +13,15 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.jsx?$/, exclude: 'node_modules', loader: 'babel-loader'},
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          optional: ["runtime", "es7.asyncFunctions"]
+        }
+      },
+
       {test: /\.css$/, loader: 'style-loader!css-loader'},
 
       // make sure bootstrap can find jquery

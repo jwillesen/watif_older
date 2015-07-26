@@ -1,0 +1,23 @@
+
+/*.browser__card {
+  height: 500px;
+  max-height: 500px;
+}
+*/
+
+.browser__card-description {
+  height: 100px;
+  max-height: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.browser__card-description:after {
+  content: "";
+  height: 2em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+}
