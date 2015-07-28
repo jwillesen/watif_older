@@ -16,3 +16,5 @@ node_modules
 generated
 
 config/environments/development_local.rb
+
+watif.sublime-workspace
