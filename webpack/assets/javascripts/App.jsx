@@ -6,10 +6,12 @@ import Navigation from './Navigation';
 export default class App extends React.Component {
   render() {
     return (
-      <div className="container">
-        <Navigation />
+      <div>
+        <div className="container">
+          <Navigation />
+        </div>
         <RouteHandler />
       </div>
     );
   }
-};
+}
