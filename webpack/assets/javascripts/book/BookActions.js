@@ -14,7 +14,7 @@ export default class BookActions extends Actions {
 
   serverFetchBooks() {
     return rest.wrap(mime)({
-      path: '/api/books'
+      path: '/api/books',
     }).entity();
   }
 }

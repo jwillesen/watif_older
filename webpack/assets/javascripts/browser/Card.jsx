@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Thumbnail, ButtonToolbar, Button} from 'react-bootstrap';
+import {Thumbnail, ButtonToolbar} from 'react-bootstrap';
 import {ButtonLink} from 'react-router-bootstrap';
 
 export default class Card extends React.Component {

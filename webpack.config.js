@@ -12,14 +12,21 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.json'],
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+      },
+    ],
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          optional: ["runtime", "es7.asyncFunctions"]
-        }
+          optional: ["runtime", "es7.asyncFunctions"],
+        },
       },
 
       {test: /\.css$/, loader: 'style-loader!css-loader'},

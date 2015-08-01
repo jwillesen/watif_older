@@ -1,4 +1,9 @@
 namespace :js do
+  desc "run eslint"
+  task :lint do
+    sh 'node_modules/.bin/eslint --ext .js,.jsx webpack'
+  end
+
   desc "run webpack in dev mode"
   task :pack do
     sh 'node_modules/.bin/webpack --progress --colors -d'
