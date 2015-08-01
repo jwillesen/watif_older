@@ -5,7 +5,7 @@ module.exports = {
   entry: './webpack/assets/javascripts/main.jsx',
   output: {
     filename: 'bundle.js',
-    path: 'app/assets/generated/javascripts',
+    path: 'generated/assets/javascripts',
   },
   resolve: {
     root: [path.join(__dirname, 'webpack/assets/javascripts')],
@@ -35,10 +35,10 @@ module.exports = {
       {test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery'},
 
       // needed to load bootstrap's css
-      {test: /\.woff2?$/, loader: "file"},
-      {test: /\.ttf$/, loader: "file"},
-      {test: /\.eot$/, loader: "file"},
-      {test: /\.svg$/, loader: "file"},
+      {test: /\.woff2?$/, loader: "file", query: {name: "../../assets/fonts/[hash].[ext]"}},
+      {test: /\.ttf$/,    loader: "file", query: {name: "../../assets/fonts/[hash].[ext]"}},
+      {test: /\.eot$/,    loader: "file", query: {name: "../../assets/fonts/[hash].[ext]"}},
+      {test: /\.svg$/,    loader: "file", query: {name: "../../assets/fonts/[hash].[ext]"}},
     ],
   },
 };
