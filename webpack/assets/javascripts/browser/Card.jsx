@@ -13,7 +13,7 @@ export default class Card extends React.Component {
         <p className='text-right'><small>by {book.author}</small></p>
         <p className="browser__card-description">{book.description}</p>
         <ButtonToolbar className="pull-right">
-          <ButtonLink to="book-info" params={{bookId: book.id}} bsStyle='info'>
+          <ButtonLink to="book-info" params={{bookId: book.id}} bsStyle='default'>
             <Glyphicon glyph="info-sign" /> Info
           </ButtonLink>
           <ButtonLink to="book-play" params={{bookId: book.id}} bsStyle='primary'>
