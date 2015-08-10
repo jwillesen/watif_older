@@ -28,7 +28,7 @@
     "babel-runtime": "^5.8.5",
     "bootstrap": "^3.3.5",
     "css-loader": "^0.15.2",
-    "eslint": "^1.0.0",
+    "eslint": "^1.1.0",
     "eslint-loader": "^1.0.0",
     "eslint-plugin-react": "^3.2.1",
     "file-loader": "^0.8.4",
