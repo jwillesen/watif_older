@@ -25,7 +25,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          optional: ["runtime", "es7.asyncFunctions"],
+          optional: ["runtime", "es7.asyncFunctions", "es7.objectRestSpread"],
         },
       },
 

@@ -1,15 +1,26 @@
 if (typeof __TEST__ === 'undefined') require('./browser/browser.css');
 
 import React from 'react';
-import FluxComponent from 'flummox/component';
+import {connect} from 'react-redux';
+
+import {fetchBooksIfNeeded} from './actions';
 import BookGrid from './browser/BookGrid';
 
-export default class Browser extends React.Component {
+class Browser extends React.Component {
+  componentWillMount() {
+    this.props.fetchBooksIfNeeded();
+  }
+
   render() {
-    return (
-      <FluxComponent connectToStores='books'>
-        <BookGrid />
-      </FluxComponent>
-    );
+    return <BookGrid books={this.props.books.value} />;
   }
 }
+
+function mapStateToProps(state) {
+  return {books: state.books};
+}
+
+export default connect(
+  mapStateToProps,
+  {fetchBooksIfNeeded}
+)(Browser);
