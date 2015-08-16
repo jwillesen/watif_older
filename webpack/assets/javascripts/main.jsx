@@ -9,14 +9,18 @@ import {combineReducers, applyMiddleware, createStore} from 'redux';
 import thunker from 'redux-thunk';
 import promiser from 'redux-promise';
 
+import logger from './logger';
 import * as reducers from './reducers';
 import Routes from './Routes';
 
 document.addEventListener('DOMContentLoaded', () => {
-  let createStoreWithMiddleware = applyMiddleware(
+  const middleware = [
     thunker,
-    promiser)(createStore);
-  let store = createStoreWithMiddleware(combineReducers(reducers));
+    promiser,
+    logger,
+  ];
+  const createStoreWithMiddleware = applyMiddleware.apply(this, middleware)(createStore);
+  const store = createStoreWithMiddleware(combineReducers(reducers));
 
   Router.run(Routes, Router.HistoryLocation, (Root) => {
     React.render(

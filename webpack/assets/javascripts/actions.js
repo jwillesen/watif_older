@@ -2,9 +2,7 @@ import {createAction} from 'redux-actions';
 import * as api from './api';
 
 function shouldFetchBooks(state) {
-  if (!state.books) return true;
-  else if (state.books.isFetching) return false;
-  else return true;
+  return state.books ? state.books.status !== 'success' : true;
 }
 
 export const FETCH_BOOKS = 'FETCH_BOOKS';
