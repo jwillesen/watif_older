@@ -37,4 +37,15 @@ class Api::BooksController < Api::ApiController
       packageUrl: "/api/books/84/package",
     }]
   end
+
+  def show
+    render json: {
+      id: params[:id],
+      author: 'Sir Duckins',
+      title: 'The Duck and Me',
+      description: %(There is a duck. And there is me. And I'm not sure which one is which),
+      thumbnailUrl: "/images/duck.jpg",
+      packageUrl: "/api/books/42/package",
+    }
+  end
 end
