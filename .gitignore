@@ -1,4 +1,4 @@
-public/assets
+public
 
 *.sublime-workspace
 node_modules
