@@ -12,7 +12,7 @@ function validateOptions (options) {
   let errors = []
   errors = errors.concat(optionPresent(options, 'updateReader'))
 
-  if (errors.length) throw errors
+  if (errors.length) throw new TypeError(errors.join('\n'))
 }
 
 export class Executor {
@@ -24,12 +24,12 @@ export class Executor {
     this._unsubscribeFromStore = this._store.subscribe(() => this._stateChanged())
   }
 
-  executeVerb (verb) {
-    this._store.dispatch(verb)
-  }
-
   start () {
     this._store.dispatch(actions.setLog(introduction))
+  }
+
+  executeVerb (verb) {
+    this._store.dispatch(verb)
   }
 
   _stateChanged () {
