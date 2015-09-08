@@ -47,4 +47,18 @@ describe('TextDisplay', () => {
     expect(buttonNodes[1].textContent).toBe('second')
     expect(buttonNodes[2].textContent).toBe('third')
   })
+
+  it('sends verb in click callback', () => {
+    const verbs = [
+      {label: 'first', action: {type: 'FIRST', payload: '1st'}},
+      {label: 'second', action: {type: 'SECOND', payload: '2nd'}},
+      {label: 'third', action: {type: 'THIRD', payload: '3rd'}},
+    ]
+    const verbSpy = expect.createSpy()
+    component = TestUtils.renderIntoDocument(<TextDisplay verbs={verbs} onVerb={verbSpy}/>)
+    const buttonComponents = TestUtils.scryRenderedDOMComponentsWithTag(component, 'button')
+    const buttonNodes = buttonComponents.map(bc => React.findDOMNode(bc))
+    TestUtils.Simulate.click(buttonNodes[1], {})
+    expect(verbSpy).toHaveBeenCalledWith(verbs[1])
+  })
 })

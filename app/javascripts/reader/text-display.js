@@ -12,6 +12,7 @@ export default class TextDisplay extends React.Component {
           type: PropTypes.string,
         }),
       })),
+      onVerb: PropTypes.func,
     }
   }
 
@@ -20,11 +21,12 @@ export default class TextDisplay extends React.Component {
       title: null,
       text: '',
       verbs: [],
+      onVerb: null,
     }
   }
 
-  handleVerbClicked (verb) {
-    console.log('verb clicked: ', verb)
+  handleVerbClick (verb) {
+    if (this.props.onVerb) this.props.onVerb(verb)
   }
 
   title () {
@@ -36,7 +38,7 @@ export default class TextDisplay extends React.Component {
     const buttons = this.props.verbs.map((verb) => {
       return (<Button
         key={verb.action.type}
-        onClick={() => this.handleVerbClicked(verb)}
+        onClick={() => this.handleVerbClick(verb)}
         bsStyle='primary'
         bsSize='xsmall'>
           {verb.label}
