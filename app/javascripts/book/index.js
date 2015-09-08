@@ -9,4 +9,11 @@ export const introduction = {
   }],
 }
 
-export default introduction
+export const events = {
+  [actions.START_STORY]: {
+    log: {
+      text: `You're standing on the front porch, facing the front door.`,
+      verbs: [],
+    },
+  },
+}

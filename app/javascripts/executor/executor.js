@@ -2,7 +2,7 @@ import {createStore} from 'redux'
 import * as actions from './actions'
 import reducer from './reducer'
 
-import {introduction} from 'book'
+import {introduction, events} from 'book'
 
 function optionPresent (options, option) {
   return !options[option] ? option + ' is required' : []
@@ -29,7 +29,8 @@ export class Executor {
   }
 
   executeVerb (verb) {
-    this._store.dispatch(verb)
+    const event = events[verb.action.type]
+    if (event.log) this._store.dispatch(actions.setLog(event.log))
   }
 
   _stateChanged () {

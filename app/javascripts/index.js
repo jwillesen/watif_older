@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   React.render(
     <Provider store={readerStore}>
-      {() => <App />}
+      {() => <App executor={bookExecutor} />}
     </Provider>,
     document.body)
 })
