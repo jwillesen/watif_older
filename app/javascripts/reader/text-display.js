@@ -5,7 +5,7 @@ export default class TextDisplay extends React.Component {
   static get propTypes () {
     return {
       title: PropTypes.string,
-      text: PropTypes.string,
+      text: PropTypes.arrayOf(PropTypes.element),
       verbs: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string,
         action: PropTypes.shape({
@@ -19,7 +19,7 @@ export default class TextDisplay extends React.Component {
   static get defaultProps () {
     return {
       title: null,
-      text: '',
+      text: [],
       verbs: [],
       onVerb: null,
     }
@@ -32,6 +32,10 @@ export default class TextDisplay extends React.Component {
   title () {
     if (this.props.title) return {header: <h2>{this.props.title}</h2>, bsStyle: 'info'}
     else return null
+  }
+
+  text () {
+    return this.props.text.map((t) => <p>{t}</p>)
   }
 
   verbs () {

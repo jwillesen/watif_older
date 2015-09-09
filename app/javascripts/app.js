@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {Reader} from 'reader'
+import {Reader, actions} from 'reader'
 
 class App extends React.Component {
   static get propTypes () {
@@ -10,8 +10,10 @@ class App extends React.Component {
   }
 
   handleVerb (verb) {
-    if (!this.props.executor) return
-    this.props.executor.executeVerb(verb)
+    this.props.verbCommand(verb)
+    if (this.props.executor) {
+      this.props.executor.executeVerb(verb)
+    }
   }
 
   render () {
@@ -26,7 +28,8 @@ class App extends React.Component {
 }
 
 const ConnectedApp = connect(
-  (state) => ({state})
+  (state) => ({state}),
+  actions
 )(App)
 
 export default ConnectedApp
