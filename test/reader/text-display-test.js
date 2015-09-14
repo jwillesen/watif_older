@@ -7,21 +7,21 @@ import React from 'react/addons'
 const TestUtils = React.addons.TestUtils
 
 describe('TextDisplay', () => {
-  let component
+  let component = null
 
   afterEach(() => {
     if (component) {
       const container = React.findDOMNode(component).parentNode
       React.unmountComponentAtNode(container)
+      component = null
     }
   })
 
   it('displays title and text', () => {
     component = TestUtils.renderIntoDocument(
-      <TextDisplay
-        title='test title'
-        text='test text'
-      />
+      <TextDisplay title='test title'>
+        <span>test text</span>
+      </TextDisplay>
     )
     const titleComponent = TestUtils.findRenderedDOMComponentWithTag(component, 'h2')
     const titleNode = React.findDOMNode(titleComponent)
@@ -34,9 +34,9 @@ describe('TextDisplay', () => {
 
   it('renders buttons for verbs', () => {
     const verbs = [
-      {label: 'first', action: {type: 'FIRST'}},
-      {label: 'second', action: {type: 'SECOND'}},
-      {label: 'third', action: {type: 'THIRD'}},
+      {name: 'first'},
+      {name: 'second'},
+      {name: 'third'},
     ]
 
     component = TestUtils.renderIntoDocument(<TextDisplay verbs={verbs} />)
@@ -50,9 +50,9 @@ describe('TextDisplay', () => {
 
   it('sends verb in click callback', () => {
     const verbs = [
-      {label: 'first', action: {type: 'FIRST', payload: '1st'}},
-      {label: 'second', action: {type: 'SECOND', payload: '2nd'}},
-      {label: 'third', action: {type: 'THIRD', payload: '3rd'}},
+      {name: 'first', other: 'stuff'},
+      {name: 'second', moreStuff: 'goes'},
+      {name: 'third', anything: 'here'},
     ]
     const verbSpy = expect.createSpy()
     component = TestUtils.renderIntoDocument(<TextDisplay verbs={verbs} onVerb={verbSpy}/>)

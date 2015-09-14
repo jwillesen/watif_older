@@ -1,47 +1,36 @@
-import React from 'react'
 import {combineReducers} from 'redux'
 import {handleActions} from 'redux-actions'
+import * as UC from 'watif/universal-constants'
 
 import * as actions from './actions'
-import VerbLog from './verb-log'
-import TextLog from './text-log'
 
-const DEFAULT_TEXT_AREA = {text: [], verbs: []}
-
-function createVerbLogElement (verb, id) {
-  return <VerbLog verb={verb} key={id} />
+export function createEventHistory (event) {
+  return {type: 'event', payload: event}
 }
 
-function createTextLogElement (text, id) {
-  return <TextLog text={text} key={id} />
+export function createCommandHistory (command) {
+  return {type: 'command', payload: command}
 }
 
-function appendVerbToLog (state, action) {
-  return updateLog(
-    state,
-    createVerbLogElement(action.payload, state.text.length),
-    state.verbs)
+function appendEventToHistory (history, action) {
+  return history.concat(createEventHistory(action.payload[UC.CURRENT_EVENT_KEY]))
 }
 
-function appendTextToLog (state, action) {
-  return updateLog(
-    state,
-    createTextLogElement(action.payload.log.text, state.text.length),
-    action.payload.log.verbs)
-}
-
-function updateLog (state, logElement, verbs) {
-  return {
-    text: state.text.concat(logElement),
-    verbs,
-  }
+function appendCommandToHistory (history, action) {
+  return history.concat(createCommandHistory(action.payload))
 }
 
 const readerReducers = {
-  log: handleActions({
-    [actions.UPDATE_INTERFACE]: appendTextToLog,
-    [actions.VERB_COMMAND]: appendVerbToLog,
-  }, DEFAULT_TEXT_AREA),
+  log: combineReducers({
+    history: handleActions({
+      [actions.UPDATE_INTERFACE]: appendEventToHistory,
+      [actions.VERB_COMMAND]: appendCommandToHistory,
+    }, []),
+
+    currentVerbs: handleActions({
+      [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.CURRENT_EVENT_KEY][UC.VERBS_KEY] || [],
+    }, []),
+  }),
 }
 
 export const reducer = combineReducers(readerReducers)

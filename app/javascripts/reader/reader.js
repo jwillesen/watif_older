@@ -1,15 +1,16 @@
 import React from 'react'
-import TextDisplay from './text-display'
+import LogDisplay from './log-display'
 
 export class Reader extends React.Component {
   render () {
     const state = this.props.state
+    const log = state.log
     return (
       <div>
-        <TextDisplay
+        <LogDisplay
           title='Game Log'
-          text={state.log.text}
-          verbs={state.log.verbs}
+          history={log.history}
+          verbs={log.currentVerbs}
           onVerb={this.props.onVerb}
         />
       </div>

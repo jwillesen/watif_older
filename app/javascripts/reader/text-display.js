@@ -5,12 +5,8 @@ export default class TextDisplay extends React.Component {
   static get propTypes () {
     return {
       title: PropTypes.string,
-      text: PropTypes.arrayOf(PropTypes.element),
       verbs: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string,
-        action: PropTypes.shape({
-          type: PropTypes.string,
-        }),
+        name: PropTypes.string,
       })),
       onVerb: PropTypes.func,
     }
@@ -34,18 +30,14 @@ export default class TextDisplay extends React.Component {
     else return null
   }
 
-  text () {
-    return this.props.text.map((t) => <p>{t}</p>)
-  }
-
   verbs () {
     const buttons = this.props.verbs.map((verb) => {
       return (<Button
-        key={verb.action.type}
+        key={verb.name}
         onClick={() => this.handleVerbClick(verb)}
         bsStyle='primary'
         bsSize='xsmall'>
-          {verb.label}
+          {verb.name}
         </Button>)
     })
     return {footer: <ButtonToolbar>{buttons}</ButtonToolbar>}
@@ -53,6 +45,6 @@ export default class TextDisplay extends React.Component {
 
   render () {
     const panelProps = {...this.title(), ...this.verbs()}
-    return <Panel {...panelProps}>{this.props.text}</Panel>
+    return <Panel {...panelProps}>{this.props.children}</Panel>
   }
 }
