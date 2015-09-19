@@ -21,7 +21,7 @@ export class Executor {
     const intro = this._universe.getState().getIn([UC.OBJECTS_KEY, UC.INTRODUCTION_KEY])
     if (!intro) throw new Error(`could not find event: ${UC.INTRODUCTION_KEY}`)
     if (intro.get(UC.TYPE_KEY) !== UC.EVENT_TYPE) throw new Error(`${UC.INTRODUCTION_KEY} object is not an ${UC.EVENT_TYPE}`)
-    this._universe.dispatch(actions.setCurrentEvent(UC.INTRODUCTION_KEY))
+    this._universe.dispatch(actions.startStory(UC.INTRODUCTION_KEY))
   }
 
   executeVerb (verbFromReader) {

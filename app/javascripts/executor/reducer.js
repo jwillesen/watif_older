@@ -5,7 +5,7 @@ import {
   OBJECT_KEY, VERBS_KEY, ACTION_KEY, OBJECTS_KEY, READER_KEY, CURRENT_EVENT_KEY, KEY_KEY
 } from 'watif/universal-constants'
 
-function handleSetCurrentEvent (universe, action) {
+function handleStartStory (universe, action) {
   return universe.setIn([READER_KEY, CURRENT_EVENT_KEY], action.payload)
 }
 
@@ -31,7 +31,7 @@ function handleExecuteVerb (universe, action) {
 }
 
 const reducer = handleActions({
-  [actions.SET_CURRENT_EVENT]: handleSetCurrentEvent,
+  [actions.START_STORY]: handleStartStory,
   [actions.EXECUTE_VERB]: handleExecuteVerb,
 }, 'blahfrogduckchicken')
 
