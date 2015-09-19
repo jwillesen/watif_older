@@ -51,16 +51,21 @@ export class Executor {
     }
   }
 
-  generateUiState (universe) {
-    const uiState = {}
-    const currentEventKey = universe.getIn([UC.READER_KEY, UC.CURRENT_EVENT_KEY])
-    const currentEvent = universe.getIn([UC.OBJECTS_KEY, currentEventKey])
-    if (currentEvent) uiState[UC.CURRENT_EVENT_KEY] = this.generateFieldContent(currentEvent)
+  generateUiField (universe, fieldKey) {
+    const currentObjectId = universe.getIn([UC.READER_KEY, fieldKey])
+    const currentObject = universe.getIn([UC.OBJECTS_KEY, currentObjectId])
+    if (currentObject) return {[fieldKey]: this.generateFieldContent(currentObject)}
+  }
 
-    return uiState
+  generateUiState () {
+    const universe = this._universe.getState()
+    return {
+      ...this.generateUiField(universe, UC.CURRENT_EVENT_KEY),
+      ...this.generateUiField(universe, UC.CURRENT_ROOM_KEY),
+    }
   }
 
   _stateChanged () {
-    this._updateReader(this.generateUiState(this._universe.getState()))
+    this._updateReader(this.generateUiState())
   }
 }

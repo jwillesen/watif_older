@@ -3,7 +3,7 @@
 import expect from 'expect'
 import Immutable from 'immutable'
 import {createExecutor} from 'executor'
-import {verb, event, item} from 'watif/objects'
+import {verb, event, room, item} from 'watif/objects'
 
 describe('createExecutor', () => {
   it('requires options', () => {
@@ -61,5 +61,26 @@ describe('Executor', () => {
     exec.executeVerb({id: 'knock', object: 'door'})
     expect(knockAction).toHaveBeenCalled()
     expect(callback).toHaveBeenCalled()
+  })
+
+  it('includes current room in ui state', () => {
+    const updateReader = expect.createSpy()
+    const exec = createExecutor({
+      updateReader,
+      initialState: Immutable.fromJS({
+        reader: {'current-room': 'office'},
+        objects: {
+          office: room('office', {description: 'the office'}),
+        },
+      }),
+    })
+    expect(exec.generateUiState()).toEqual({
+      'current-room': {
+        id: 'office',
+        name: 'office',
+        description: 'the office',
+        verbs: [],
+      },
+    })
   })
 })
