@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
-import {Map, fromJS} from 'immutable'
+import Immutable from 'immutable'
 import {createExecutor} from 'executor'
 import {verb, event, item} from 'watif/objects'
 
@@ -11,7 +11,7 @@ describe('createExecutor', () => {
   })
 
   it('accepts valid options', () => {
-    expect(() => createExecutor({updateReader: () => {}, initialState: Map()})).toNotThrow()
+    expect(() => createExecutor({updateReader: () => {}, initialState: Immutable.Map()})).toNotThrow()
   })
 })
 
@@ -20,7 +20,7 @@ describe('Executor', () => {
     const callback = expect.createSpy()
     const exec = createExecutor({
       updateReader: callback,
-      initialState: fromJS({
+      initialState: Immutable.fromJS({
         objects: {
           introduction: event('introduction', {
             name: 'Book Title',
@@ -48,7 +48,7 @@ describe('Executor', () => {
 
     const exec = createExecutor({
       updateReader: callback,
-      initialState: fromJS({
+      initialState: Immutable.fromJS({
         objects: {
           door: item('door', {
             description: 'a door',

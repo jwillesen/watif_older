@@ -2,14 +2,14 @@
 
 import expect from 'expect'
 import {event, room, item, verb} from 'watif/objects'
-import {EVENT_TYPE, ROOM_TYPE, ITEM_TYPE} from 'watif/universal-constants'
+import {KEY_KEY, TYPE_KEY, EVENT_TYPE, ROOM_TYPE, ITEM_TYPE} from 'watif/universal-constants'
 
 describe('object creators', () => {
   describe('event', () => {
     it('creates a basic event', () => {
       const result = event('key', {description: 'an event'})
-      expect(result.key).toBe('key')
-      expect(result.type).toBe(EVENT_TYPE)
+      expect(result[KEY_KEY]).toBe('key')
+      expect(result[TYPE_KEY]).toBe(EVENT_TYPE)
     })
 
     it('requires description', () => {
