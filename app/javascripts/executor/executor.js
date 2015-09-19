@@ -30,9 +30,9 @@ export class Executor {
 
   generateVerbContent (watifObject, verb) {
     return {
-      [UC.KEY_KEY]: verb.get(UC.KEY_KEY),
+      [UC.ID_KEY]: verb.get(UC.ID_KEY),
       [UC.NAME_KEY]: verb.get(UC.NAME_KEY),
-      [UC.OBJECT_KEY]: watifObject.get(UC.KEY_KEY),
+      [UC.OBJECT_KEY]: watifObject.get(UC.ID_KEY),
     }
   }
 
@@ -44,7 +44,7 @@ export class Executor {
 
   generateFieldContent (watifObject) {
     return {
-      [UC.KEY_KEY]: watifObject.get(UC.KEY_KEY),
+      [UC.ID_KEY]: watifObject.get(UC.ID_KEY),
       [UC.NAME_KEY]: watifObject.get(UC.NAME_KEY),
       [UC.DESCRIPTION_KEY]: watifObject.get(UC.DESCRIPTION_KEY),
       [UC.VERBS_KEY]: this.generateVerbsContent(watifObject),

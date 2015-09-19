@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 import {handleActions} from 'redux-actions'
 import * as actions from './actions'
 import {
-  OBJECT_KEY, VERBS_KEY, ACTION_KEY, OBJECTS_KEY, READER_KEY, CURRENT_EVENT_KEY, KEY_KEY
+  OBJECT_KEY, VERBS_KEY, ACTION_KEY, OBJECTS_KEY, READER_KEY, CURRENT_EVENT_KEY, ID_KEY
 } from 'watif/universal-constants'
 
 function handleStartStory (universe, action) {
@@ -16,8 +16,8 @@ function handleExecuteVerb (universe, action) {
   const mainTargetObject = universe.getIn([OBJECTS_KEY, objectKey])
   if (!mainTargetObject) throw Error(`could not find object: "${objectKey}"`)
 
-  const verbKey = readerVerb[KEY_KEY]
-  const targetVerb = mainTargetObject.get(VERBS_KEY).find(verb => verb.get(KEY_KEY) === verbKey)
+  const verbKey = readerVerb[ID_KEY]
+  const targetVerb = mainTargetObject.get(VERBS_KEY).find(verb => verb.get(ID_KEY) === verbKey)
   if (!targetVerb) throw Error(`could not find verb: "${verbKey}"`)
 
   let actions = targetVerb.get(ACTION_KEY)

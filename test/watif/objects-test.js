@@ -2,13 +2,13 @@
 
 import expect from 'expect'
 import {event, room, item, verb} from 'watif/objects'
-import {KEY_KEY, TYPE_KEY, EVENT_TYPE, ROOM_TYPE, ITEM_TYPE} from 'watif/universal-constants'
+import {ID_KEY, TYPE_KEY, EVENT_TYPE, ROOM_TYPE, ITEM_TYPE} from 'watif/universal-constants'
 
 describe('object creators', () => {
   describe('event', () => {
     it('creates a basic event', () => {
       const result = event('key', {description: 'an event'})
-      expect(result[KEY_KEY]).toBe('key')
+      expect(result[ID_KEY]).toBe('key')
       expect(result[TYPE_KEY]).toBe(EVENT_TYPE)
     })
 
@@ -21,7 +21,7 @@ describe('object creators', () => {
     })
 
     it('accepts verbs as an array of verb shapes', () => {
-      expect(() => event('key', { description: '', verbs: [{key: '', name: '', action: () => ({})}] })).toNotThrow()
+      expect(() => event('key', { description: '', verbs: [{id: '', name: '', action: () => ({})}] })).toNotThrow()
     })
 
     it('requires verbs to be an array', () => {
@@ -34,11 +34,11 @@ describe('object creators', () => {
       })
 
       it('requires a name', () => {
-        expect(() => event('key', { description: '', verbs: [{key: '', action: () => {}}] })).toThrow()
+        expect(() => event('key', { description: '', verbs: [{id: '', action: () => {}}] })).toThrow()
       })
 
       it('requires action to be a function', () => {
-        expect(() => event('key', {description: '', verbs: [{key: '', name: '', action: 'not-a-function'}]})).toThrow()
+        expect(() => event('key', {description: '', verbs: [{id: '', name: '', action: 'not-a-function'}]})).toThrow()
       })
     })
   })
@@ -50,7 +50,7 @@ describe('object creators', () => {
     })
 
     it('defaults name to key', () => {
-      expect(room('key', {description: 'a room'})).toEqual({key: 'key', type: 'room', name: 'key', description: 'a room'})
+      expect(room('key', {description: 'a room'})).toEqual({id: 'key', type: 'room', name: 'key', description: 'a room'})
     })
 
     it('requires description', () => {
@@ -76,22 +76,22 @@ describe('object creators', () => {
   describe('verb', () => {
     it('creates a verb', () => {
       const action = () => {}
-      expect(verb('key', action)).toEqual({key: 'key', name: 'key', action: action})
+      expect(verb('key', action)).toEqual({id: 'key', name: 'key', action: action})
     })
 
     it('creates a verb with a custom name', () => {
       const action = () => {}
-      expect(verb('key', action, {name: 'name'})).toEqual({key: 'key', name: 'name', action: action})
+      expect(verb('key', action, {name: 'name'})).toEqual({id: 'key', name: 'name', action: action})
     })
 
     it('allows actions to be an array of functions', () => {
       const actions = [() => {}, f => f]
-      expect(verb('key', actions)).toEqual({key: 'key', name: 'key', action: actions})
+      expect(verb('key', actions)).toEqual({id: 'key', name: 'key', action: actions})
     })
 
     it('allows properties as the second parameter', () => {
       const f = u => u
-      expect(verb('key', {action: f})).toEqual({key: 'key', name: 'key', action: f})
+      expect(verb('key', {action: f})).toEqual({id: 'key', name: 'key', action: f})
     })
   })
 })

@@ -19,6 +19,6 @@ export const STATE_KEY = 'state'
 export const LOCATION_KEY = 'location'
 export const VERBS_KEY = 'verbs'
 
-export const KEY_KEY = 'key'
+export const ID_KEY = 'id'
 export const ACTION_KEY = 'action'
 export const OBJECT_KEY = 'object'

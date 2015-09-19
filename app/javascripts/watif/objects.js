@@ -5,7 +5,7 @@ import * as UC from './universal-constants'
 const OBJECT_TYPES = [UC.EVENT_TYPE, UC.ROOM_TYPE, UC.ITEM_TYPE]
 
 const VERB_SHAPE = checker.shape({
-  [UC.KEY_KEY]: checker.string,
+  [UC.ID_KEY]: checker.string,
   [UC.NAME_KEY]: checker.string,
   [UC.ACTION_KEY]: checker.oneOfType(
     [checker.func, checker.arrayOf(checker.func)]
@@ -13,7 +13,7 @@ const VERB_SHAPE = checker.shape({
 }).strict
 
 const COMMON_SHAPE = {
-  [UC.KEY_KEY]: checker.string,
+  [UC.ID_KEY]: checker.string,
   [UC.TYPE_KEY]: checker.oneOf(OBJECT_TYPES),
   [UC.NAME_KEY]: checker.string,
   [UC.DESCRIPTION_KEY]: checker.string,
@@ -56,7 +56,7 @@ export function validateObject (obj) {
 
 export function createObject (key, type, attributes) {
   const obj = {
-    [UC.KEY_KEY]: key,
+    [UC.ID_KEY]: key,
     [UC.TYPE_KEY]: type,
     [UC.NAME_KEY]: key,
     ...attributes,
@@ -84,7 +84,7 @@ export function verb (key, action, attributes) {
   }
 
   const result = {
-    [UC.KEY_KEY]: key,
+    [UC.ID_KEY]: key,
     [UC.NAME_KEY]: key,
     [UC.ACTION_KEY]: action,
     ...attributes,

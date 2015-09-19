@@ -34,10 +34,10 @@ describe('Executor', () => {
     expect(callback).toHaveBeenCalled()
     expect(callback.calls[0].arguments).toEqual([{
       'current-event': {
-        key: 'introduction',
+        id: 'introduction',
         name: 'Book Title', // events don't have names
         description: 'something happened',
-        verbs: [{key: 'start', name: 'start', object: 'introduction'}],
+        verbs: [{id: 'start', name: 'start', object: 'introduction'}],
       },
     }])
   })
@@ -58,7 +58,7 @@ describe('Executor', () => {
         },
       }),
     })
-    exec.executeVerb({key: 'knock', object: 'door'})
+    exec.executeVerb({id: 'knock', object: 'door'})
     expect(knockAction).toHaveBeenCalled()
     expect(callback).toHaveBeenCalled()
   })
