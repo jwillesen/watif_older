@@ -20,6 +20,12 @@ function appendCommandToHistory (history, action) {
   return history.concat(createCommandHistory(action.payload))
 }
 
+function currentEventVerbs (state, action) {
+  const currentEvent = action.payload[UC.CURRENT_EVENT_KEY]
+  if (!currentEvent) return []
+  return currentEvent[UC.VERBS_KEY] || []
+}
+
 const readerReducers = {
   log: combineReducers({
     history: handleActions({
@@ -28,9 +34,13 @@ const readerReducers = {
     }, []),
 
     currentVerbs: handleActions({
-      [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.CURRENT_EVENT_KEY][UC.VERBS_KEY] || [],
+      [actions.UPDATE_INTERFACE]: currentEventVerbs,
     }, []),
   }),
+
+  'current-room': handleActions({
+    [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.CURRENT_ROOM_KEY] || {},
+  }, {}),
 }
 
 export const reducer = combineReducers(readerReducers)

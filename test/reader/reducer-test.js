@@ -39,4 +39,12 @@ describe('reader reducer', () => {
     }))
     expect(nextState.log.currentVerbs).toEqual(testVerbs)
   })
+
+  it('sets current room', () => {
+    const testRoom = {a: 1, b: 2}
+    const nextState = reducer(initialState(), actions.updateInterface({
+      [UC.CURRENT_ROOM_KEY]: testRoom,
+    }))
+    expect(nextState[UC.CURRENT_ROOM_KEY]).toEqual(testRoom)
+  })
 })
