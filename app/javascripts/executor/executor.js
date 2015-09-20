@@ -17,15 +17,20 @@ export class Executor {
     this._unsubscribeFromUniverse = this._universe.subscribe(() => this._stateChanged())
   }
 
+  universe () {
+    return this._universe.getState()
+  }
+
   start () {
-    const intro = this._universe.getState().getIn([UC.OBJECTS_KEY, UC.INTRODUCTION_KEY])
-    if (!intro) throw new Error(`could not find event: ${UC.INTRODUCTION_KEY}`)
-    if (intro.get(UC.TYPE_KEY) !== UC.EVENT_TYPE) throw new Error(`${UC.INTRODUCTION_KEY} object is not an ${UC.EVENT_TYPE}`)
     this._universe.dispatch(actions.startStory(UC.INTRODUCTION_KEY))
   }
 
   executeVerb (verbFromReader) {
     this._universe.dispatch(actions.executeVerb(verbFromReader))
+  }
+
+  selectItem (itemId) {
+    this._universe.dispatch(actions.selectItem(itemId))
   }
 
   generateVerbContent (watifObject, verb) {
@@ -62,6 +67,7 @@ export class Executor {
     return {
       ...this.generateUiField(universe, UC.CURRENT_EVENT_KEY),
       ...this.generateUiField(universe, UC.CURRENT_ROOM_KEY),
+      ...this.generateUiField(universe, UC.CURRENT_ITEM_KEY),
     }
   }
 
