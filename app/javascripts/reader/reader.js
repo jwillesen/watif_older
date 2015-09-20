@@ -1,6 +1,7 @@
 import React from 'react'
 import LogDisplay from './log-display'
 import TextDisplay from './text-display'
+import Description from './description'
 
 export class Reader extends React.Component {
   render () {
@@ -22,7 +23,7 @@ export class Reader extends React.Component {
           verbs={room.verbs}
           onVerb={this.props.onVerb}
         >
-          <p>{room.description}</p>
+          <Description description={room.description} />
         </TextDisplay>
       </div>
     )

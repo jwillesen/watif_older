@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import Description from './description'
 
 export default class EventLog extends React.Component {
   static get propTypes () {
@@ -10,6 +11,6 @@ export default class EventLog extends React.Component {
   }
 
   render () {
-    return <p>{this.props.event.description}</p>
+    return <Description description={this.props.event.description} />
   }
 }
