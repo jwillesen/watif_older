@@ -39,15 +39,21 @@ function handleExecuteVerb (universe, action) {
 function handleSelectItem (universe, action) {
   const itemId = action.payload
   const item = universe.getIn([OBJECTS_KEY, itemId])
-  if (!item) throw Error('could not find item: ${itemId}')
-  if (item.get(TYPE_KEY) !== ITEM_TYPE) throw Error('${itemId} object is not an ${ITEM_TYPE}')
+  if (!item) throw Error(`could not find item: ${itemId}`)
+  if (item.get(TYPE_KEY) !== ITEM_TYPE) throw Error(`${itemId} object is not an ${ITEM_TYPE}`)
   return universe.setIn([READER_KEY, CURRENT_ITEM_KEY], itemId)
 }
 
-const reducer = handleActions({
+const actionHandler = handleActions({
   [actions.START_STORY]: handleStartStory,
   [actions.EXECUTE_VERB]: handleExecuteVerb,
   [actions.SELECT_ITEM]: handleSelectItem,
 })
 
-export default reducer
+export default function reducer (universe, action) {
+  if (universe === undefined) throw Error('explicit initial state required')
+  // every action clears this because we don't want the UI to print the same event twice
+  let nextUniverse = universe.setIn([READER_KEY, CURRENT_EVENT_KEY], '')
+  nextUniverse = actionHandler(nextUniverse, action)
+  return nextUniverse
+}

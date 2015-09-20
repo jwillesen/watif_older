@@ -31,6 +31,11 @@ describe('reader reducer', () => {
     expect(nextState.log.history[1].payload).toEqual(testCommand)
   })
 
+  it("doesn't update log history if there is no event", () => {
+    const nextState = reducer(nextState, actions.updateInterface({}))
+    expect(nextState.log.history.length).toBe(0)
+  })
+
   it('replaces verbs', () => {
     const testVerbs = ['foo', 'bar', 'baz']
     const testEvent = { [UC.VERBS_KEY]: testVerbs }
@@ -46,5 +51,13 @@ describe('reader reducer', () => {
       [UC.CURRENT_ROOM_KEY]: testRoom,
     }))
     expect(nextState[UC.CURRENT_ROOM_KEY]).toEqual(testRoom)
+  })
+
+  it('sets current object', () => {
+    const testItem = {c: 3, d: 4}
+    const nextState = reducer(initialState(), actions.updateInterface({
+      [UC.CURRENT_ITEM_KEY]: testItem,
+    }))
+    expect(nextState[UC.CURRENT_ITEM_KEY]).toEqual(testItem)
   })
 })

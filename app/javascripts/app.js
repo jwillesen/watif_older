@@ -16,12 +16,22 @@ class App extends React.Component {
     }
   }
 
+  handleObjectReferenceSelected (objectId) {
+    if (this.props.executor) {
+      this.props.executor.selectItem(objectId)
+    }
+  }
+
   render () {
     const state = this.props.state
     return (
       <div className='container'>
         <h1>Watif Reader</h1>
-        <Reader state={state.reader} onVerb={this.handleVerb.bind(this)} />
+        <Reader
+          state={state.reader}
+          onVerb={this.handleVerb.bind(this)}
+          onObjectReferenceSelected={this.handleObjectReferenceSelected.bind(this)}
+        />
       </div>
     )
   }

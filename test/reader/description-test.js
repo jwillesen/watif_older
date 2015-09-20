@@ -47,7 +47,7 @@ describe('Description', () => {
     component = TestUtils.renderIntoDocument(
       <Description
         description="My kingdom for a [sword|excalibur]!"
-        onObjectReferenceClick={callback}
+        onObjectReferenceSelected={callback}
       />
     )
     const link = TestUtils.findRenderedDOMComponentWithTag(component, 'a')

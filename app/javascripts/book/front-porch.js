@@ -12,16 +12,14 @@ export default [
 
   room('front-porch', {
     name: 'Front Porch',
-    description: `You're standing on the front porch, facing the [front door|front-door].`,
-    verbs: [
-      verb('knock', triggerEvent('knock-on-door')),
-    ],
+    description: `You're standing on the front porch, facing the [front door|front-door-outside].`,
+    verbs: [],
   }),
 
   item('front-door-outside', {
     location: 'front-porch',
     name: 'Front Door',
     description: `It's just a normal front door with a knocker. You've seen it many times.`,
-    verbs: [],
+    verbs: [verb('knock', triggerEvent('knock-on-door'))],
   }),
 ]

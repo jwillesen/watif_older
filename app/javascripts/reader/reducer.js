@@ -13,7 +13,10 @@ export function createCommandHistory (command) {
 }
 
 function appendEventToHistory (history, action) {
-  return history.concat(createEventHistory(action.payload[UC.CURRENT_EVENT_KEY]))
+  if (action.payload[UC.CURRENT_EVENT_KEY]) {
+    return history.concat(createEventHistory(action.payload[UC.CURRENT_EVENT_KEY]))
+  }
+  return history
 }
 
 function appendCommandToHistory (history, action) {
@@ -40,6 +43,10 @@ const readerReducers = {
 
   'current-room': handleActions({
     [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.CURRENT_ROOM_KEY] || {},
+  }, {}),
+
+  'current-item': handleActions({
+    [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.CURRENT_ITEM_KEY] || {},
   }, {}),
 }
 

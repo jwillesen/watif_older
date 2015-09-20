@@ -19,21 +19,21 @@ export default class Description extends React.Component {
   static get propTypes () {
     return {
       description: PropTypes.string,
-      onObjectReferenceClick: PropTypes.func,
+      onObjectReferenceSelected: PropTypes.func,
     }
   }
 
   static get defaultProps () {
     return {
       description: '',
-      onObjectReferenceClick: noop,
+      onObjectReferenceSelected: noop,
     }
   }
 
   activateObjectReference (event, obj) {
     if (event.type === 'click' || (event.type === 'keypress' && event.key === ' ')) {
       event.preventDefault()
-      this.props.onObjectReferenceClick(obj.payload.id)
+      this.props.onObjectReferenceSelected(obj.payload.id)
     }
   }
 
