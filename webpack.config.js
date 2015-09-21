@@ -1,6 +1,8 @@
 /* eslint no-var: 0 */
+
 var path = require('path')
 var autoprefixer = require('autoprefixer')
+var common = require('./webpack.common')
 
 module.exports = {
   entry: './app/javascripts/index.js',
@@ -11,12 +13,9 @@ module.exports = {
   },
 
   resolve: {
-    root: [
-      path.join(__dirname, 'app/javascripts'),
-      path.join(__dirname, 'app/css'),
-      path.join(__dirname, 'app/html'),
-    ],
-    extensions: ['', '.js', '.jsx', '.json'],
+    root: common.root,
+    extensions: common.extensions,
+    alias: common.alias,
   },
 
   postcss: function () {
@@ -24,24 +23,9 @@ module.exports = {
   },
 
   module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-      },
-    ],
+    preLoaders: common.preLoaders,
 
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        query: {
-          optional: ['runtime', 'es7.asyncFunctions', 'es7.objectRestSpread'],
-        },
-      },
-
+    loaders: common.loaders.concat([
       {test: /\.scss$/, loader: 'style!css!postcss!sass', exclude: /node_modules/},
       {test: /\.css$/, loader: 'style!css!postcss', exclude: /node_modules/},
 
@@ -51,6 +35,6 @@ module.exports = {
       {test: /\.ttf$/, loader: 'file', query: {name: 'fonts/[hash].[ext]'}},
       {test: /\.eot$/, loader: 'file', query: {name: 'fonts/[hash].[ext]'}},
       {test: /\.svg$/, loader: 'file', query: {name: 'fonts/[hash].[ext]'}},
-    ],
+    ]),
   },
 }

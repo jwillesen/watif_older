@@ -3,6 +3,8 @@ import LogDisplay from './log-display'
 import TextDisplay from './text-display'
 import Description from './description'
 
+require('./reader.scss')
+
 export class Reader extends React.Component {
   static get propTypes () {
     return {
@@ -34,29 +36,35 @@ export class Reader extends React.Component {
     const item = state['current-item']
 
     return (
-      <div>
-        <LogDisplay
-          title='Game Log'
-          history={log.history}
-          verbs={log.currentVerbs}
-          onVerb={this.props.onVerb}
-        />
+      <div className='reader'>
+        <div className='reader__section'>
+          <LogDisplay
+            title='Game Log'
+            history={log.history}
+            verbs={log.currentVerbs}
+            onVerb={this.props.onVerb}
+          />
+        </div>
 
-        <TextDisplay
-          title={room.name}
-          verbs={room.verbs}
-          onVerb={this.props.onVerb}
-        >
-          <Description description={room.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
-        </TextDisplay>
+        <div className='reader__section'>
+          <TextDisplay
+            title={room.name}
+            verbs={room.verbs}
+            onVerb={this.props.onVerb}
+          >
+            <Description description={room.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
+          </TextDisplay>
+        </div>
 
-        <TextDisplay
-          title={item.name}
-          verbs={item.verbs}
-          onVerb={this.props.onVerb}
-        >
-          <Description description={item.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
-        </TextDisplay>
+        <div className='reader__section'>
+          <TextDisplay
+            title={item.name}
+            verbs={item.verbs}
+            onVerb={this.props.onVerb}
+          >
+            <Description description={item.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
+          </TextDisplay>
+        </div>
       </div>
     )
   }

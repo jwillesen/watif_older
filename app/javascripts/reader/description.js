@@ -38,7 +38,7 @@ export default class Description extends React.Component {
   }
 
   renderParagraph (paragraph, index) {
-    return <p key={index}>{this.renderContent(paragraph.payload)}</p>
+    return <div className='text-display__paragraph' key={index}>{this.renderContent(paragraph.payload)}</div>
   }
 
   renderText (text, index) {

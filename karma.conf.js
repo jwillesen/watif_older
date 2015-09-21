@@ -1,6 +1,6 @@
 /* eslint no-var: 0 */
 var webpack = require('webpack') // eslint-disable-line no-unused-vars
-var path = require('path')
+var common = require('./webpack.common')
 
 module.exports = function (config) {
   config.set({
@@ -14,15 +14,20 @@ module.exports = function (config) {
       'tests.webpack.js': [ 'webpack', 'sourcemap' ],
     },
     reporters: [ 'dots' ],
+
     webpack: {
       devtool: 'inline-source-map',
       resolve: {
-        root: [path.join(__dirname, 'app/javascripts')],
+        root: common.root,
+        extensions: common.extensions,
+        alias: common.alias,
       },
       module: {
-        loaders: [
-          { test: /\.jsx?$/, loader: 'babel-loader' },
-        ],
+        preLoaders: common.preLoaders,
+
+        loaders: common.loaders.concat([
+          { test: /\.s?css$/, loader: 'null-loader' },
+        ]),
       },
     },
     webpackServer: {

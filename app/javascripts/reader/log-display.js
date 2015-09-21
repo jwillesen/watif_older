@@ -1,4 +1,7 @@
 import React, {PropTypes} from 'react'
+import TweenLite from 'gsap/TweenLite'
+require('gsap/ScrollToPlugin')
+
 import TextDisplay from './text-display'
 import EventLog from './event-log'
 import CommandLog from './command-log'
@@ -17,6 +20,19 @@ export default class LogDisplay extends React.Component
 
   static get defaultProps () {
     return {history: []}
+  }
+
+  componentDidUpdate () {
+    const bodyElement = React.findDOMNode(this.refs.display.refs.body)
+    const lastLogElement = bodyElement.lastChild
+
+    const maxScrollTop = bodyElement.scrollHeight - bodyElement.clientHeight
+    const extraPadding = 10 // tends to scroll too far without this for some reason
+    const desiredScrollTop = bodyElement.scrollHeight -
+      lastLogElement.clientHeight - extraPadding
+    const targetTop = Math.min(maxScrollTop, desiredScrollTop)
+
+    TweenLite.to(bodyElement, 1, {scrollTo: targetTop, ease: Power2.easeOut}) // eslint-disable-line no-undef
   }
 
   renderEventHistory (history, index) {
@@ -41,7 +57,7 @@ export default class LogDisplay extends React.Component
 
   render () {
     return (
-      <TextDisplay {...this.props}>
+      <TextDisplay ref='display' {...this.props}>
         {this.renderHistory()}
       </TextDisplay>
     )

@@ -1,0 +1,20 @@
+.reader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 96vh;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.reader__section {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.reader__section + .reader__section {
+  margin-top: 20px;
+}

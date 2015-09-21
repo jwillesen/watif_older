@@ -29,7 +29,7 @@ describe('Description', () => {
     component = TestUtils.renderIntoDocument(
       <Description description={description} />
     )
-    const ps = TestUtils.scryRenderedDOMComponentsWithTag(component, 'p')
+    const ps = TestUtils.scryRenderedDOMComponentsWithClass(component, 'text-display__paragraph')
     expect(ps.length).toBe(4)
   })
 

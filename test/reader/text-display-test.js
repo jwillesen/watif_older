@@ -23,11 +23,11 @@ describe('TextDisplay', () => {
         <span>test text</span>
       </TextDisplay>
     )
-    const titleComponent = TestUtils.findRenderedDOMComponentWithTag(component, 'h2')
+    const titleComponent = TestUtils.findRenderedDOMComponentWithClass(component, 'text-display__header')
     const titleNode = React.findDOMNode(titleComponent)
     expect(titleNode.textContent).toBe('test title')
 
-    const textComponent = TestUtils.findRenderedDOMComponentWithClass(component, 'panel-body')
+    const textComponent = TestUtils.findRenderedDOMComponentWithClass(component, 'text-display__body')
     const textNode = React.findDOMNode(textComponent)
     expect(textNode.textContent).toBe('test text')
   })

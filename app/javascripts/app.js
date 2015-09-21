@@ -25,14 +25,11 @@ class App extends React.Component {
   render () {
     const state = this.props.state
     return (
-      <div className='container'>
-        <h1>Watif Reader</h1>
-        <Reader
-          state={state.reader}
-          onVerb={this.handleVerb.bind(this)}
-          onObjectReferenceSelected={this.handleObjectReferenceSelected.bind(this)}
-        />
-      </div>
+      <Reader
+        state={state.reader}
+        onVerb={this.handleVerb.bind(this)}
+        onObjectReferenceSelected={this.handleObjectReferenceSelected.bind(this)}
+      />
     )
   }
 }
