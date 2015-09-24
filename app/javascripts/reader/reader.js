@@ -37,33 +37,41 @@ export class Reader extends React.Component {
 
     return (
       <div className='reader'>
-        <div className='reader__section'>
-          <LogDisplay
-            title='Game Log'
-            history={log.history}
-            verbs={log.currentVerbs}
-            onVerb={this.props.onVerb}
-          />
-        </div>
-
-        <div className='reader__section'>
+        <div className='reader__inventory'>
           <TextDisplay
-            title={room.name}
-            verbs={room.verbs}
-            onVerb={this.props.onVerb}
+            title="Inventory"
           >
-            <Description description={room.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
           </TextDisplay>
         </div>
+        <div className='reader__sections'>
+          <div className='reader__section'>
+            <LogDisplay
+              title='Game Log'
+              history={log.history}
+              verbs={log.currentVerbs}
+              onVerb={this.props.onVerb}
+            />
+          </div>
 
-        <div className='reader__section'>
-          <TextDisplay
-            title={item.name}
-            verbs={item.verbs}
-            onVerb={this.props.onVerb}
-          >
-            <Description description={item.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
-          </TextDisplay>
+          <div className='reader__section'>
+            <TextDisplay
+              title={room.name}
+              verbs={room.verbs}
+              onVerb={this.props.onVerb}
+            >
+              <Description description={room.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
+            </TextDisplay>
+          </div>
+
+          <div className='reader__section'>
+            <TextDisplay
+              title={item.name}
+              verbs={item.verbs}
+              onVerb={this.props.onVerb}
+            >
+              <Description description={item.description} onObjectReferenceSelected={this.props.onObjectReferenceSelected} />
+            </TextDisplay>
+          </div>
         </div>
       </div>
     )

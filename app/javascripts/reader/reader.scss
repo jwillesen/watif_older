@@ -1,12 +1,25 @@
 .reader {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
   height: 96vh;
   margin-left: 10vw;
   margin-right: 10vw;
   margin-top: 2vh;
   margin-bottom: 2vh;
+}
+
+.reader__inventory {
+  flex: 2;
+  margin-right: 20px;
+
+  display: flex;
+}
+
+.reader__sections {
+  flex: 5;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .reader__section {
