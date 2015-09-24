@@ -1,6 +1,8 @@
 import {
   TYPE_KEY, OBJECTS_KEY, READER_KEY, CURRENT_EVENT_KEY, CURRENT_ROOM_KEY,
-  EVENT_TYPE, ROOM_TYPE,
+  STATE_KEY, LOCATION_KEY,
+  EVENT_TYPE, ROOM_TYPE, ITEM_TYPE,
+  INVENTORY_LOCATION,
 } from './universal-constants'
 
 function findObject (universe, objectKey) {
@@ -30,7 +32,14 @@ export function triggerEvent (eventKey) {
 
 export function setCurrentRoom (roomKey) {
   return function (universe) {
-    findValidObject(universe, roomKey, ROOM_TYPE)
+    findValidObject.call(this, universe, roomKey, ROOM_TYPE)
     return universe.setIn([READER_KEY, CURRENT_ROOM_KEY], roomKey)
+  }
+}
+
+export function takeItem (itemKey) {
+  return function (universe) {
+    findValidObject.call(this, universe, itemKey, ITEM_TYPE)
+    return universe.setIn([OBJECTS_KEY, itemKey, STATE_KEY, LOCATION_KEY], INVENTORY_LOCATION)
   }
 }

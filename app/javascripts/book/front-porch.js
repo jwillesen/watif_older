@@ -16,8 +16,12 @@ export default [
     verbs: [],
   }),
 
+  item('introductory-note', {
+    name: "Amanda Baker's Note",
+    description: `A note from Amanda Baker`,
+  }),
+
   item('front-door-outside', {
-    location: 'front-porch',
     name: 'Front Door',
     description: `It's just a normal front door with a knocker. You've seen it many times.`,
     verbs: [verb('knock', triggerEvent('knock-on-door'))],

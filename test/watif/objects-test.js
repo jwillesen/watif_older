@@ -64,12 +64,8 @@ describe('object creators', () => {
 
   describe('item', () => {
     it('creates a basic item', () => {
-      const result = item('key', {name: '', description: '', location: ''})
+      const result = item('key', {name: '', description: ''})
       expect(result.type).toBe(ITEM_TYPE)
-    })
-
-    it('requires location', () => {
-      expect(() => item('key', {name: '', description: ''})).toThrow()
     })
   })
 

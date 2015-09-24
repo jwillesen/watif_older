@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import LogDisplay from './log-display'
 import TextDisplay from './text-display'
 import Description from './description'
+import InventoryDisplay from './inventory-display'
 
 require('./reader.scss')
 
@@ -38,10 +39,10 @@ export class Reader extends React.Component {
     return (
       <div className='reader'>
         <div className='reader__inventory'>
-          <TextDisplay
-            title="Inventory"
-          >
-          </TextDisplay>
+          <InventoryDisplay
+            inventory={state['inventory']}
+            onObjectReferenceSelected={this.props.onObjectReferenceSelected}
+          />
         </div>
         <div className='reader__sections'>
           <div className='reader__section'>

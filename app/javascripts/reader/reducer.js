@@ -48,6 +48,10 @@ const readerReducers = {
   'current-item': handleActions({
     [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.CURRENT_ITEM_KEY] || {},
   }, {}),
+
+  'inventory': handleActions({
+    [actions.UPDATE_INTERFACE]: (state, action) => action.payload[UC.INVENTORY_KEY] || [],
+  }, []),
 }
 
 export const reducer = combineReducers(readerReducers)

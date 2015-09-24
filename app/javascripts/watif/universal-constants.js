@@ -16,9 +16,12 @@ export const ITEM_TYPE = 'item'
 export const NAME_KEY = 'name'
 export const DESCRIPTION_KEY = 'description'
 export const STATE_KEY = 'state'
-export const LOCATION_KEY = 'location'
 export const VERBS_KEY = 'verbs'
 
 export const ID_KEY = 'id'
 export const ACTION_KEY = 'action'
 export const OBJECT_KEY = 'object'
+
+export const INVENTORY_KEY = 'inventory'
+export const LOCATION_KEY = 'location'
+export const INVENTORY_LOCATION = 'inventory'

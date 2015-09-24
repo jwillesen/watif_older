@@ -24,10 +24,6 @@ const STATE_SHAPE = {
   [UC.STATE_KEY]: checker.object.optional,
 }
 
-const LOCATION_SHAPE = {
-  [UC.LOCATION_KEY]: checker.string,
-}
-
 const OBJECT_SHAPES = {
   [UC.EVENT_TYPE]: checker.shape({
     ...COMMON_SHAPE,
@@ -41,7 +37,6 @@ const OBJECT_SHAPES = {
   [UC.ITEM_TYPE]: checker.shape({
     ...COMMON_SHAPE,
     ...STATE_SHAPE,
-    ...LOCATION_SHAPE,
   }).strict,
 }
 

@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import ItemLink from './item-link'
 import {
   parseContent,
   PARAGRAPH_ELEMENT_TYPE, TEXT_ELEMENT_TYPE, OBJECT_REFERENCE_ELEMENT_TYPE,
@@ -30,30 +31,21 @@ export default class Description extends React.Component {
     }
   }
 
-  activateObjectReference (event, obj) {
-    if (event.type === 'click' || (event.type === 'keypress' && event.key === ' ')) {
-      event.preventDefault()
-      this.props.onObjectReferenceSelected(obj.payload.id)
-    }
-  }
-
   renderParagraph (paragraph, index) {
     return <div className='text-display__paragraph' key={index}>{this.renderContent(paragraph.payload)}</div>
   }
 
   renderText (text, index) {
-    return <span key={index}>{text.payload}</span>
+    return <span className='text-display__text' key={index}>{text.payload}</span>
   }
 
   renderObjectReference (obj, index) {
-    const activate = (event) => this.activateObjectReference(event, obj)
-    return (
-      <a key={index} role='button' href='#'
-        onClick={activate}
-        onKeyPress={activate}>
-        {obj.payload.name}
-      </a>
-    )
+    return (<ItemLink
+      item={obj.payload}
+      key={index}
+      className='text-display__item-link'
+      onActivate={item => this.props.onObjectReferenceSelected(item.id)}
+    />)
   }
 
   renderItem (item, index) {
