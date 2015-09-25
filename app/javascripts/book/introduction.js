@@ -3,7 +3,9 @@ import {triggerEvent, setCurrentRoom, takeItem} from 'watif/manipulators'
 
 export default [
   event('introduction', {
-    description: `When you agreed to house sit for the Bakers', you didn't know what you were getting into.`,
+    description: `
+When you agreed to house sit for the Bakers, you didn't know what you were getting into.
+    `,
     verbs: [
       verb('start', [
         triggerEvent('start-story'),
@@ -18,5 +20,9 @@ export default [
     verbs: [
       verb('wave', triggerEvent('wave-goodbye')),
     ],
+  }),
+
+  event('take-item', {
+    description: `You got it.`,
   }),
 ]

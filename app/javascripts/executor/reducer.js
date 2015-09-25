@@ -3,16 +3,15 @@ import {handleActions} from 'redux-actions'
 import * as actions from './actions'
 import {
   ID_KEY, OBJECT_KEY, VERBS_KEY, ACTION_KEY, OBJECTS_KEY, READER_KEY,
-  CURRENT_EVENT_KEY, CURRENT_ITEM_KEY,
-  INTRODUCTION_KEY, TYPE_KEY,
-  ITEM_TYPE, EVENT_TYPE,
+  CURRENT_EVENT_KEY, CURRENT_ITEM_KEY, TYPE_KEY,
+  INTRODUCTION_ID, ITEM_TYPE, EVENT_TYPE,
 } from 'watif/universal-constants'
 
 function handleStartStory (universe, action) {
-  const intro = universe.getIn([OBJECTS_KEY, INTRODUCTION_KEY])
-  if (!intro) throw Error(`could not find event: ${INTRODUCTION_KEY}`)
-  if (intro.get(TYPE_KEY) !== EVENT_TYPE) throw Error(`${INTRODUCTION_KEY} object is not an ${EVENT_TYPE}`)
-  return universe.setIn([READER_KEY, CURRENT_EVENT_KEY], INTRODUCTION_KEY)
+  const intro = universe.getIn([OBJECTS_KEY, INTRODUCTION_ID])
+  if (!intro) throw Error(`could not find event: ${INTRODUCTION_ID}`)
+  if (intro.get(TYPE_KEY) !== EVENT_TYPE) throw Error(`${INTRODUCTION_ID} object is not an ${EVENT_TYPE}`)
+  return universe.setIn([READER_KEY, CURRENT_EVENT_KEY], INTRODUCTION_ID)
 }
 
 function handleExecuteVerb (universe, action) {
@@ -30,7 +29,7 @@ function handleExecuteVerb (universe, action) {
   if (typeof actions === 'function') actions = Immutable.List.of(actions)
 
   const nextUniverse = actions.reduce(
-    (priorUniverse, action) => action.call(this, priorUniverse),
+    (priorUniverse, action) => action.call(mainTargetObject, priorUniverse),
     universe,
     this)
   return nextUniverse

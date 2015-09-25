@@ -1,6 +1,5 @@
 import {createStore} from 'redux'
 const checker = require('api-check')()
-import * as UC from 'watif/universal-constants'
 import * as actions from './actions'
 import reducer from './reducer'
 import createReaderState from './create-reader-update'
@@ -23,7 +22,7 @@ export class Executor {
   }
 
   start () {
-    this._universe.dispatch(actions.startStory(UC.INTRODUCTION_KEY))
+    this._universe.dispatch(actions.startStory())
   }
 
   executeVerb (verbFromReader) {

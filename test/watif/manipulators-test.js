@@ -9,14 +9,14 @@ import {
   INVENTORY_LOCATION,
 } from 'watif/universal-constants'
 
-import {item} from 'watif/objects'
+import {event, item} from 'watif/objects'
 
 import {
-  triggerEvent, setCurrentRoom, takeItem,
+  triggerEvent, setCurrentRoom, takeItem, takeItemVerb,
 } from 'watif/manipulators'
 
 function mockContext () {
-  return {id: 'mock'}
+  return Immutable.fromJS({id: 'mock'})
 }
 
 describe('triggerEvent', () => {
@@ -76,5 +76,36 @@ describe('takeItem', () => {
     expect(nextState.getIn(
       [OBJECTS_KEY, 'item', STATE_KEY, LOCATION_KEY])
     ).toBe(INVENTORY_LOCATION)
+  })
+
+  it("defaults to the context's item id", () => {
+    const priorState = Immutable.fromJS({
+      objects: {mock: item('mock', {description: 'a mock object'})},
+    })
+    const nextState = takeItem().call(mockContext(), priorState)
+    expect(nextState.getIn(
+      [OBJECTS_KEY, 'mock', STATE_KEY, LOCATION_KEY])
+    ).toBe(INVENTORY_LOCATION)
+  })
+})
+
+describe('takeItemVerb', () => {
+  it('takes an item and triggers an event', () => {
+    const priorState = Immutable.fromJS({
+      objects: {
+        'take-item': event('take-item', {description: 'item taken'}),
+        mock: item('mock', {description: 'a mock object'}),
+      },
+    })
+    const takeVerb = takeItemVerb()
+    expect(takeVerb.action.length).toBe(2)
+    const nextState = takeVerb.action.reduce(
+      function (prior, action) { return action.call(mockContext(), prior) },
+      priorState)
+    // const nextState = takeVerb.call(mockContext(), priorState)
+    expect(nextState.getIn([READER_KEY, CURRENT_EVENT_KEY])).toBe('take-item')
+    expect(nextState.getIn(
+      [OBJECTS_KEY, 'mock', STATE_KEY, LOCATION_KEY]
+    )).toBe(INVENTORY_LOCATION)
   })
 })
