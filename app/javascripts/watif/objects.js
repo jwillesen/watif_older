@@ -10,6 +10,7 @@ const VERB_SHAPE = checker.shape({
   [UC.ACTION_KEY]: checker.oneOfType(
     [checker.func, checker.arrayOf(checker.func)]
   ),
+  [UC.ENABLED_KEY]: checker.func.optional,
 }).strict
 
 const COMMON_SHAPE = {

@@ -20,6 +20,7 @@ export const VERBS_KEY = 'verbs'
 export const ID_KEY = 'id'
 export const ACTION_KEY = 'action'
 export const OBJECT_KEY = 'object'
+export const ENABLED_KEY = 'enabled'
 
 export const INVENTORY_KEY = 'inventory'
 export const LOCATION_KEY = 'location'

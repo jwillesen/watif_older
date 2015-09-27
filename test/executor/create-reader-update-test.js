@@ -60,6 +60,40 @@ describe('createReaderUpdate', () => {
     })
   })
 
+  it('filters out disabled verbs', () => {
+    const kickSpy = expect.createSpy()
+    const takeSpy = expect.createSpy()
+    const universe = Immutable.fromJS({
+      [UC.READER_KEY]: {[UC.CURRENT_ITEM_KEY]: 'rock'},
+      [UC.OBJECTS_KEY]: {
+        'rock': item('rock', {
+          description: 'a rock',
+          verbs: [verb('kick', kickSpy), verb('take', takeSpy, {enabled: () => false})],
+        }),
+      },
+    })
+    const readerState = createReaderUpdate(universe)
+    expect(readerState[UC.CURRENT_ITEM_KEY][UC.VERBS_KEY]).toEqual(
+      [{[UC.ID_KEY]: 'kick', [UC.NAME_KEY]: 'kick', [UC.OBJECT_KEY]: 'rock'}]
+    )
+  })
+
+  it('executes enabled in the context of the object', () => {
+    const enabledSpy = expect.createSpy()
+    const rockItem = item('rock', {
+      description: 'a rock',
+      verbs: [verb('kick', () => {}, {enabled: enabledSpy})],
+    })
+    const universe = Immutable.fromJS({
+      [UC.READER_KEY]: {[UC.CURRENT_ITEM_KEY]: 'rock'},
+      [UC.OBJECTS_KEY]: {'rock': rockItem},
+    })
+    createReaderUpdate(universe)
+    expect(enabledSpy).toHaveBeenCalled()
+    expect(enabledSpy.calls[0].context).toExist()
+    expect(enabledSpy.calls[0].context.toJS()).toEqual(rockItem)
+  })
+
   it('includes inventory', () => {
     const universe = Immutable.fromJS({
       reader: {},

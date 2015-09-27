@@ -4,7 +4,7 @@ import expect from 'expect'
 import Immutable from 'immutable'
 import {
   TYPE_KEY, READER_KEY, OBJECTS_KEY, STATE_KEY, LOCATION_KEY,
-  CURRENT_EVENT_KEY, CURRENT_ROOM_KEY,
+  CURRENT_EVENT_KEY, CURRENT_ROOM_KEY, ENABLED_KEY,
   EVENT_TYPE, ROOM_TYPE,
   INVENTORY_LOCATION,
 } from 'watif/universal-constants'
@@ -107,5 +107,17 @@ describe('takeItemVerb', () => {
     expect(nextState.getIn(
       [OBJECTS_KEY, 'mock', STATE_KEY, LOCATION_KEY]
     )).toBe(INVENTORY_LOCATION)
+  })
+
+  it('is enabled if the item is not in inventory', () => {
+    const context = Immutable.fromJS({})
+    const takeVerb = takeItemVerb()
+    expect(takeVerb[ENABLED_KEY].call(context)).toExist() // to be truthy
+  })
+
+  it('is disabled if the item is already in the inventory', () => {
+    const context = Immutable.fromJS({[STATE_KEY]: {[LOCATION_KEY]: INVENTORY_LOCATION}})
+    const takeVerb = takeItemVerb()
+    expect(takeVerb[ENABLED_KEY].call(context)).toNotExist() // to be falsey
   })
 })

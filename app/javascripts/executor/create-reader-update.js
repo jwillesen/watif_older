@@ -9,6 +9,12 @@ export default function createReaderState (universe) {
   }
 }
 
+function isVerbEnabled (verb, context) {
+  const isEnabled = verb.get(UC.ENABLED_KEY)
+  if (!isEnabled) return true
+  return isEnabled.call(context)
+}
+
 function createVerbContent (watifObject, verb) {
   return {
     [UC.ID_KEY]: verb.get(UC.ID_KEY),
@@ -20,7 +26,10 @@ function createVerbContent (watifObject, verb) {
 function createVerbsContent (watifObject) {
   const verbs = watifObject.get(UC.VERBS_KEY)
   if (!verbs) return []
-  return verbs.map(verb => createVerbContent(watifObject, verb)).toJS()
+  return verbs
+    .filter(verb => isVerbEnabled(verb, watifObject))
+    .map(verb => createVerbContent(watifObject, verb))
+    .toJS()
 }
 
 function createInventory (universe) {

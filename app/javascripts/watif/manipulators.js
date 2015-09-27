@@ -46,6 +46,14 @@ export function takeItem (itemKey) {
   }
 }
 
+function thisIsNotInInventory () {
+  return this.getIn([STATE_KEY, LOCATION_KEY]) !== INVENTORY_LOCATION
+}
+
 export function takeItemVerb (itemKey) {
-  return verb(TAKE_VERB_ID, [takeItem(itemKey), triggerEvent(TAKE_ITEM_EVENT_ID)])
+  return verb(TAKE_VERB_ID,
+    [takeItem(itemKey), triggerEvent(TAKE_ITEM_EVENT_ID)], {
+      enabled: thisIsNotInInventory,
+    }
+  )
 }

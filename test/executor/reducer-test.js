@@ -20,8 +20,7 @@ describe('executor/reducer', () => {
   })
 
   it('sets the context to the outer object when executing verbs', () => {
-    let contextOfSpy
-    const spy = expect.createSpy().andCall(function () { contextOfSpy = this })
+    const spy = expect.createSpy()
     const mockItem = item('mock', {
       description: 'a mock object',
       verbs: [verb('spy', spy)],
@@ -35,6 +34,6 @@ describe('executor/reducer', () => {
       [UC.NAME_KEY]: 'spy',
     }))
     expect(spy).toHaveBeenCalled()
-    expect(contextOfSpy.toJS()).toEqual(mockItem)
+    expect(spy.calls[0].context.toJS()).toEqual(mockItem)
   })
 })
