@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react'
+import shouldUpdate from './smart-should-update'
+import newTextAnimation from './new-text-animation'
 import ItemLink from './item-link'
 import {
   parseContent,
@@ -29,6 +31,18 @@ export default class Description extends React.Component {
       description: '',
       onObjectReferenceSelected: noop,
     }
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return shouldUpdate(this, nextProps, nextState)
+  }
+
+  componentDidMount () {
+    newTextAnimation(React.findDOMNode(this))
+  }
+
+  componentDidUpdate () {
+    newTextAnimation(React.findDOMNode(this))
   }
 
   renderParagraph (paragraph, index) {

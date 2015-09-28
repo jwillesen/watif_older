@@ -31,6 +31,7 @@ export default class InventoryDisplay extends React.Component {
         <ItemLink
           item={item}
           className='inventory-display__item-link'
+          shouldAnimate={true}
           onActivate={item => this.props.onObjectReferenceSelected(item.id)}
         />
       </li>

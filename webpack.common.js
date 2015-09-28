@@ -12,9 +12,11 @@ module.exports = {
   extensions: ['', '.js', '.jsx', '.json'],
 
   alias: {
+    'TweenLite': 'gsap/src/uncompressed/TweenLite', // for TweenLite plugins
     'gsap/TweenLite': 'gsap/src/uncompressed/TweenLite',
-    'gsap/ScrollToPlugin': 'gsap/src/uncompressed/plugins/ScrollToPlugin',
     'gsap/EasePack': 'gsap/src/uncompressed/easing/EasePack',
+    'gsap/ScrollToPlugin': 'gsap/src/uncompressed/plugins/ScrollToPlugin',
+    'gsap/CSSPlugin': 'gsap/src/uncompressed/plugins/CSSPlugin',
   },
 
   preLoaders: [{
