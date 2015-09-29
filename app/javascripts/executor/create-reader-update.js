@@ -9,10 +9,10 @@ export default function createReaderState (universe) {
   }
 }
 
-function isVerbEnabled (verb, context) {
+function isVerbEnabled (verb, context, universe) {
   const isEnabled = verb.get(UC.ENABLED_KEY)
   if (!isEnabled) return true
-  return isEnabled.call(context)
+  return isEnabled.call(context, universe)
 }
 
 function createVerbContent (watifObject, verb) {
@@ -23,11 +23,11 @@ function createVerbContent (watifObject, verb) {
   }
 }
 
-function createVerbsContent (watifObject) {
+function createVerbsContent (watifObject, universe) {
   const verbs = watifObject.get(UC.VERBS_KEY)
   if (!verbs) return []
   return verbs
-    .filter(verb => isVerbEnabled(verb, watifObject))
+    .filter(verb => isVerbEnabled(verb, watifObject, universe))
     .map(verb => createVerbContent(watifObject, verb))
     .toJS()
 }
@@ -41,17 +41,17 @@ function createInventory (universe) {
   return { [UC.INVENTORY_KEY]: objects.toJS() }
 }
 
-function createFieldContent (watifObject) {
+function createFieldContent (watifObject, universe) {
   return {
     [UC.ID_KEY]: watifObject.get(UC.ID_KEY),
     [UC.NAME_KEY]: watifObject.get(UC.NAME_KEY),
     [UC.DESCRIPTION_KEY]: watifObject.get(UC.DESCRIPTION_KEY),
-    [UC.VERBS_KEY]: createVerbsContent(watifObject),
+    [UC.VERBS_KEY]: createVerbsContent(watifObject, universe),
   }
 }
 
 function createUiField (universe, fieldKey) {
   const currentObjectId = universe.getIn([UC.READER_KEY, fieldKey])
   const currentObject = universe.getIn([UC.OBJECTS_KEY, currentObjectId])
-  if (currentObject) return {[fieldKey]: createFieldContent(currentObject)}
+  if (currentObject) return {[fieldKey]: createFieldContent(currentObject, universe)}
 }

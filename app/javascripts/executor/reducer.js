@@ -51,8 +51,10 @@ const actionHandler = handleActions({
 
 export default function reducer (universe, action) {
   if (universe === undefined) throw Error('explicit initial state required')
+
   // every action clears this because we don't want the UI to print the same event twice
-  let nextUniverse = universe.setIn([READER_KEY, CURRENT_EVENT_KEY], '')
+  let nextUniverse = universe.deleteIn([READER_KEY, CURRENT_EVENT_KEY])
+
   nextUniverse = actionHandler(nextUniverse, action)
   return nextUniverse
 }
