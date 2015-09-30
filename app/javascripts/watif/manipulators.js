@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {
   ID_KEY, TYPE_KEY, OBJECTS_KEY, READER_KEY, CURRENT_EVENT_KEY, CURRENT_ROOM_KEY,
   STATE_KEY, LOCATION_KEY,
@@ -46,14 +47,14 @@ export function takeItem (itemKey) {
   }
 }
 
-function thisIsNotInInventory () {
-  return this.getIn([STATE_KEY, LOCATION_KEY]) !== INVENTORY_LOCATION
+function isInInventory (target) {
+  return target.getIn([STATE_KEY, LOCATION_KEY]) === INVENTORY_LOCATION
 }
 
 export function takeItemVerb (itemKey) {
   return verb(TAKE_VERB_ID,
     [takeItem(itemKey), triggerEvent(TAKE_ITEM_EVENT_ID)], {
-      enabled: thisIsNotInInventory,
+      enabled: _.negate(isInInventory),
     }
   )
 }

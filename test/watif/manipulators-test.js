@@ -112,12 +112,12 @@ describe('takeItemVerb', () => {
   it('is enabled if the item is not in inventory', () => {
     const context = Immutable.fromJS({})
     const takeVerb = takeItemVerb()
-    expect(takeVerb[ENABLED_KEY].call(context)).toExist() // to be truthy
+    expect(takeVerb[ENABLED_KEY](context)).toExist() // to be truthy
   })
 
   it('is disabled if the item is already in the inventory', () => {
     const context = Immutable.fromJS({[STATE_KEY]: {[LOCATION_KEY]: INVENTORY_LOCATION}})
     const takeVerb = takeItemVerb()
-    expect(takeVerb[ENABLED_KEY].call(context)).toNotExist() // to be falsey
+    expect(takeVerb[ENABLED_KEY](context)).toNotExist() // to be falsey
   })
 })

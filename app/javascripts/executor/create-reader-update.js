@@ -14,7 +14,7 @@ export default function createReaderState (universe) {
 function isVerbEnabled (verb, context, universe) {
   const isEnabled = verb.get(UC.ENABLED_KEY)
   if (!isEnabled) return true
-  return isEnabled.call(context, universe)
+  return isEnabled(context, universe)
 }
 
 function createVerbContent (watifObject, verb) {

@@ -118,7 +118,7 @@ describe('createReaderUpdate', () => {
     )
   })
 
-  it('executes `enabled` in the context of the object and passes in universe', () => {
+  it('executes `enabled` with object and universe', () => {
     const enabledSpy = expect.createSpy()
     const rockItem = item('rock', {
       description: 'a rock',
@@ -130,10 +130,9 @@ describe('createReaderUpdate', () => {
     })
     createReaderUpdate(universe)
     expect(enabledSpy).toHaveBeenCalled()
-    expect(enabledSpy.calls[0].context).toExist()
-    expect(enabledSpy.calls[0].context.toJS()).toEqual(rockItem)
-    expect(enabledSpy.calls[0].arguments[0]).toExist()
-    expect(enabledSpy.calls[0].arguments[0].toJS()).toEqual(universe.toJS())
+    expect(enabledSpy.calls[0].arguments.length).toBe(2)
+    expect(enabledSpy.calls[0].arguments[0].toJS()).toEqual(rockItem)
+    expect(enabledSpy.calls[0].arguments[1]).toBe(universe)
   })
 
   it('includes inventory', () => {
