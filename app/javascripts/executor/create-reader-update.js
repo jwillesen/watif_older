@@ -1,4 +1,6 @@
 import * as UC from 'watif/universal-constants'
+import Immutable from 'immutable'
+import _ from 'lodash'
 
 export default function createReaderState (universe) {
   return {
@@ -32,6 +34,23 @@ function createVerbsContent (watifObject, universe) {
     .toJS()
 }
 
+function recurseCreateDescriptionContent (description, watifObject, universe) {
+  if (Immutable.List.isList(description)) {
+    return (description
+      .map(d => recurseCreateDescriptionContent(d, watifObject, universe))
+      .join(' ')
+    )
+  } else if (_.isFunction(description)) {
+    return description(watifObject, universe)
+  }
+  return description
+}
+
+function createDescriptionContent (watifObject, universe) {
+  const description = watifObject.get(UC.DESCRIPTION_KEY)
+  return recurseCreateDescriptionContent(description, watifObject, universe)
+}
+
 function createInventory (universe) {
   let objects = universe.get(UC.OBJECTS_KEY)
     .valueSeq()
@@ -45,7 +64,7 @@ function createFieldContent (watifObject, universe) {
   return {
     [UC.ID_KEY]: watifObject.get(UC.ID_KEY),
     [UC.NAME_KEY]: watifObject.get(UC.NAME_KEY),
-    [UC.DESCRIPTION_KEY]: watifObject.get(UC.DESCRIPTION_KEY),
+    [UC.DESCRIPTION_KEY]: createDescriptionContent(watifObject, universe),
     [UC.VERBS_KEY]: createVerbsContent(watifObject, universe),
   }
 }

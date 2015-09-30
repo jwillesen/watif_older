@@ -17,7 +17,8 @@ const COMMON_SHAPE = {
   [UC.ID_KEY]: checker.string,
   [UC.TYPE_KEY]: checker.oneOf(OBJECT_TYPES),
   [UC.NAME_KEY]: checker.string,
-  [UC.DESCRIPTION_KEY]: checker.string,
+  [UC.DESCRIPTION_KEY]: checker.typeOrArrayOf(
+    checker.oneOfType([checker.string, checker.func])),
   [UC.VERBS_KEY]: checker.arrayOf(VERB_SHAPE).optional,
 }
 

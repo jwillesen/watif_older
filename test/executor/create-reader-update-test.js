@@ -60,6 +60,46 @@ describe('createReaderUpdate', () => {
     })
   })
 
+  describe('description', () => {
+    it('calls a function with object and universe', () => {
+      const spy = expect.createSpy().andReturn('testing')
+      const rock = item('rock', {description: spy})
+      const universe = Immutable.fromJS({
+        [UC.READER_KEY]: {[UC.CURRENT_ITEM_KEY]: 'rock'},
+        [UC.OBJECTS_KEY]: {rock},
+      })
+      const readerState = createReaderUpdate(universe)
+      expect(readerState[UC.CURRENT_ITEM_KEY][UC.DESCRIPTION_KEY]).toBe('testing')
+      expect(spy).toHaveBeenCalled()
+      expect(spy.calls.length).toBe(1)
+      expect(spy.calls[0].arguments.length).toBe(2)
+      expect(spy.calls[0].arguments[0].toJS()).toEqual(rock)
+      expect(spy.calls[0].arguments[1]).toBe(universe)
+    })
+
+    it('joins an array of strings', () => {
+      const rock = item('rock', {description: ['foo', 'bar', 'baz']})
+      const universe = Immutable.fromJS({
+        [UC.READER_KEY]: {[UC.CURRENT_ITEM_KEY]: 'rock'},
+        [UC.OBJECTS_KEY]: {rock},
+      })
+      const readerState = createReaderUpdate(universe)
+      expect(readerState[UC.CURRENT_ITEM_KEY][UC.DESCRIPTION_KEY]).toBe('foo bar baz')
+    })
+
+    it('joins mixed array', () => {
+      const rock = item('rock', {description: [
+        'one', () => 'two', 'buckle my', () => 'shoe']})
+      const universe = Immutable.fromJS({
+        [UC.READER_KEY]: {[UC.CURRENT_ITEM_KEY]: 'rock'},
+        [UC.OBJECTS_KEY]: {rock},
+      })
+      const readerState = createReaderUpdate(universe)
+      expect(readerState[UC.CURRENT_ITEM_KEY][UC.DESCRIPTION_KEY])
+        .toBe('one two buckle my shoe')
+    })
+  })
+
   it('filters out disabled verbs', () => {
     const kickSpy = expect.createSpy()
     const takeSpy = expect.createSpy()
