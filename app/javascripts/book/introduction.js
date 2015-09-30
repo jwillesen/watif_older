@@ -1,5 +1,5 @@
 import {event, verb} from 'watif/objects'
-import {triggerEvent, setCurrentRoom, takeItem} from 'watif/manipulators'
+import {triggerEvent, setCurrentRoom} from 'watif/manipulators'
 
 export default [
   event('introduction', {
@@ -10,7 +10,7 @@ When you agreed to house sit for the Bakers, you didn't know what you were getti
       verb('start', [
         triggerEvent('start-story'),
         setCurrentRoom('front-porch'),
-        takeItem('introductory-note'),
+        // takeItem('introductory-note'),
       ]),
     ],
   }),

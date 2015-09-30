@@ -7,9 +7,7 @@ const OBJECT_TYPES = [UC.EVENT_TYPE, UC.ROOM_TYPE, UC.ITEM_TYPE]
 const VERB_SHAPE = checker.shape({
   [UC.ID_KEY]: checker.string,
   [UC.NAME_KEY]: checker.string,
-  [UC.ACTION_KEY]: checker.oneOfType(
-    [checker.func, checker.arrayOf(checker.func)]
-  ),
+  [UC.ACTION_KEY]: checker.typeOrArrayOf(checker.func),
   [UC.ENABLED_KEY]: checker.func.optional,
 }).strict
 

@@ -28,4 +28,9 @@ export const INVENTORY_LOCATION = 'inventory'
 
 export const INTRODUCTION_ID = 'introduction'
 export const TAKE_ITEM_EVENT_ID = 'take-item'
+
 export const TAKE_VERB_ID = 'take'
+
+export const OPEN_KEY = 'open'
+export const OPEN_VERB_ID = 'open'
+export const CLOSE_VERB_ID = 'close'

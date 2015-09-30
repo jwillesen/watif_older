@@ -1,60 +1,93 @@
-import _ from 'lodash'
-import {
-  ID_KEY, TYPE_KEY, OBJECTS_KEY, READER_KEY, CURRENT_EVENT_KEY, CURRENT_ROOM_KEY,
-  STATE_KEY, LOCATION_KEY,
-  EVENT_TYPE, ROOM_TYPE, ITEM_TYPE,
-  INVENTORY_LOCATION, TAKE_VERB_ID, TAKE_ITEM_EVENT_ID,
-} from './universal-constants'
-import {verb} from './objects'
+import * as UC from './universal-constants'
+import {findObject, isOpen} from './info'
+import {cond} from 'cond'
 
-function findObject (universe, objectKey) {
-  return universe.getIn([OBJECTS_KEY, objectKey])
+const isType = (object, type) => {
+  if (type) return object && object.get(UC.TYPE_KEY) === type
+  return !!object
 }
 
-function isType (object, type) {
-  return object && object.get(TYPE_KEY) === type
-}
-
-function checkValidObject (universe, targetObject, objectKey, objectType) {
+const checkValidObject = (universe, target, objectKey, objectType) => {
   const object = findObject(universe, objectKey)
   if (!isType(object, objectType)) {
     throw new Error(
-      `unrecognized ${objectType} "${objectKey}" referenced from "${targetObject.get(ID_KEY)}"`
+      `unrecognized ${objectType} "${objectKey}" referenced from "${target.get(UC.ID_KEY)}"`
     )
   }
   return object
 }
 
-export function triggerEvent (eventKey) {
-  return function (universe, targetObject) {
-    checkValidObject(universe, targetObject, eventKey, EVENT_TYPE)
-    return universe.setIn([READER_KEY, CURRENT_EVENT_KEY], eventKey)
+export const doAll = (...args) => {
+  return (universe, target) => {
+    // TODO: this is a repeat of what's in executor reducer
+    const nextUniverse = args.reduce(
+      (priorUniverse, action) => action(priorUniverse, target),
+      universe)
+    return nextUniverse
   }
 }
 
-export function setCurrentRoom (roomKey) {
-  return function (universe, targetObject) {
-    checkValidObject(universe, targetObject, roomKey, ROOM_TYPE)
-    return universe.setIn([READER_KEY, CURRENT_ROOM_KEY], roomKey)
+export const setState = (stateKey, stateValue) => {
+  return (universe, target) => universe.setIn(
+    [UC.OBJECTS_KEY, target.get(UC.ID_KEY), UC.STATE_KEY, stateKey],
+    stateValue)
+}
+
+export const setStateOf = (objectId, stateKey, stateValue) => {
+  return (universe, target) => {
+    const object = findObject(universe, objectId)
+    checkValidObject(universe, target, objectId)
+    return setState(stateKey, stateValue)(universe, object)
   }
 }
 
-export function takeItem (itemKey) {
-  return function (universe, targetObject) {
-    if (!itemKey) itemKey = targetObject.get(ID_KEY)
-    checkValidObject(universe, targetObject, itemKey, ITEM_TYPE)
-    return universe.setIn([OBJECTS_KEY, itemKey, STATE_KEY, LOCATION_KEY], INVENTORY_LOCATION)
+export const triggerEvent = (eventKey) => {
+  return (universe, target) => {
+    checkValidObject(universe, target, eventKey, UC.EVENT_TYPE)
+    return universe.setIn([UC.READER_KEY, UC.CURRENT_EVENT_KEY], eventKey)
   }
 }
 
-function isInInventory (target) {
-  return target.getIn([STATE_KEY, LOCATION_KEY]) === INVENTORY_LOCATION
+export const setCurrentRoom = (roomKey) => {
+  return (universe, target) => {
+    checkValidObject(universe, target, roomKey, UC.ROOM_TYPE)
+    return universe.setIn([UC.READER_KEY, UC.CURRENT_ROOM_KEY], roomKey)
+  }
 }
 
-export function takeItemVerb (itemKey) {
-  return verb(TAKE_VERB_ID,
-    [takeItem(itemKey), triggerEvent(TAKE_ITEM_EVENT_ID)], {
-      enabled: _.negate(isInInventory),
-    }
-  )
+export const takeItem = (itemKey) => {
+  return (universe, target) => {
+    itemKey = itemKey || target.get(UC.ID_KEY)
+    checkValidObject(universe, target, itemKey, UC.ITEM_TYPE)
+    return setStateOf(itemKey, UC.LOCATION_KEY, UC.INVENTORY_LOCATION)(universe, target)
+  }
+}
+
+export const openItem = (itemKey) => {
+  return (universe, target) => {
+    itemKey = itemKey || target.get(UC.ID_KEY)
+    checkValidObject(universe, target, itemKey, UC.ITEM_TYPE)
+    return setStateOf(itemKey, UC.OPEN_KEY, true)(universe, target)
+  }
+}
+
+export const closeItem = (itemKey) => {
+  return (universe, target) => {
+    itemKey = itemKey || target.get(UC.ID_KEY)
+    checkValidObject(universe, target, itemKey, UC.ITEM_TYPE)
+    return setStateOf(itemKey, UC.OPEN_KEY, false)(universe, target)
+  }
+}
+
+export const setLocation = (locationId) => setState(UC.LOCATION_KEY, locationId)
+export const setLocationOf = (itemId, locationId) => setStateOf(itemId, UC.LOCATION_KEY, locationId)
+
+export const listContentsIfOpen = () => {
+  return cond(isOpen()).then(listContents())
+}
+
+export const listContents = () => {
+  return (universe, target) => {
+    return `<contents of container goes here>`
+  }
 }

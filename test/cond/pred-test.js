@@ -26,4 +26,15 @@ describe('pred', () => {
     expect(falseResult).toBe(false)
     expect(func(3, 3)).toBe(true)
   })
+
+  it('can construct complex expressions', () => {
+    const first = (a, b, c, d) => a
+    const second = (a, b, c, d) => b
+    const third = (a, b, c, d) => c
+    const fourth = (a, b, c, d) => d
+    const func = (pred(first).eq(second)).and(pred(third).eq(fourth))
+    expect(func(1, 1, 2, 2)).toBe(true)
+    expect(func(1, 2, 3, 3)).toBe(false)
+    expect(func(1, 1, 3, 4)).toBe(false)
+  })
 })

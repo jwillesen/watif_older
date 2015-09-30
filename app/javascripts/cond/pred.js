@@ -1,11 +1,17 @@
 import {executeClause} from './util'
 
-export function pred (value) {
-  const result = (...args) => executeClause(value, ...args)
+const wrap = (func) => (...args) => executeClause(func, ...args)
 
-  result.eq = (other) => {
-    return (...args) => executeClause(value, ...args) === executeClause(other, ...args)
-  }
+const makePred = (func) => {
+  const wrapper = wrap(func)
 
-  return result
+  wrapper.not = () => makePred((...args) => !wrapper(...args))
+  wrapper.eq = (other) => makePred((...args) => wrapper(...args) === wrap(other)(...args))
+  wrapper.notEq = (other) => makePred((...args) => wrapper(...args) === wrap(other)(...args))
+  wrapper.and = (other) => makePred((...args) => wrapper(...args) && wrap(other)(...args))
+  wrapper.or = (other) => makePred((...args) => wrapper(...args) || wrap(other)(...args))
+
+  return wrapper
 }
+
+export const pred = value => makePred(value)
