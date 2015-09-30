@@ -24,7 +24,7 @@ describe('triggerEvent', () => {
     const priorState = Immutable.fromJS({
       objects: {start: {[TYPE_KEY]: EVENT_TYPE}},
     })
-    const nextState = triggerEvent('start').call(mockContext(), priorState)
+    const nextState = triggerEvent('start')(mockContext(), priorState)
     expect(nextState.getIn([READER_KEY, CURRENT_EVENT_KEY])).toBe('start')
   })
 
@@ -32,14 +32,14 @@ describe('triggerEvent', () => {
     const priorState = Immutable.fromJS({
       objects: {start: {[TYPE_KEY]: EVENT_TYPE}},
     })
-    expect(() => triggerEvent('does-not-exist').call(mockContext(), priorState)).toThrow()
+    expect(() => triggerEvent('does-not-exist')(mockContext(), priorState)).toThrow()
   })
 
   it('throws if object is not an event', () => {
     const priorState = Immutable.fromJS({
       objects: {start: {[TYPE_KEY]: ROOM_TYPE}},
     })
-    expect(() => triggerEvent('start').call(mockContext(), priorState)).toThrow()
+    expect(() => triggerEvent('start')(mockContext(), priorState)).toThrow()
   })
 })
 
@@ -48,7 +48,7 @@ describe('setCurrentRoom', () => {
     const priorState = Immutable.fromJS({
       objects: {room: {[TYPE_KEY]: ROOM_TYPE}},
     })
-    const nextState = setCurrentRoom('room').call(mockContext(), priorState)
+    const nextState = setCurrentRoom('room')(mockContext(), priorState)
     expect(nextState.getIn([READER_KEY, CURRENT_ROOM_KEY])).toBe('room')
   })
 
@@ -56,14 +56,14 @@ describe('setCurrentRoom', () => {
     const priorState = Immutable.fromJS({
       objects: {room: {[TYPE_KEY]: ROOM_TYPE}},
     })
-    expect(() => setCurrentRoom('non-existent').call(mockContext(), priorState)).toThrow()
+    expect(() => setCurrentRoom('non-existent')(mockContext(), priorState)).toThrow()
   })
 
   it('throws if object is not a room', () => {
     const priorState = Immutable.fromJS({
       objects: {room: {[TYPE_KEY]: EVENT_TYPE}},
     })
-    expect(() => setCurrentRoom('room').call(mockContext(), priorState)).toThrow()
+    expect(() => setCurrentRoom('room')(mockContext(), priorState)).toThrow()
   })
 })
 
@@ -72,7 +72,7 @@ describe('takeItem', () => {
     const priorState = Immutable.fromJS({
       objects: {item: item('item', {description: 'an item'})},
     })
-    const nextState = takeItem('item').call(mockContext(), priorState)
+    const nextState = takeItem('item')(mockContext(), priorState)
     expect(nextState.getIn(
       [OBJECTS_KEY, 'item', STATE_KEY, LOCATION_KEY])
     ).toBe(INVENTORY_LOCATION)
@@ -82,7 +82,7 @@ describe('takeItem', () => {
     const priorState = Immutable.fromJS({
       objects: {mock: item('mock', {description: 'a mock object'})},
     })
-    const nextState = takeItem().call(mockContext(), priorState)
+    const nextState = takeItem()(mockContext(), priorState)
     expect(nextState.getIn(
       [OBJECTS_KEY, 'mock', STATE_KEY, LOCATION_KEY])
     ).toBe(INVENTORY_LOCATION)
@@ -100,9 +100,8 @@ describe('takeItemVerb', () => {
     const takeVerb = takeItemVerb()
     expect(takeVerb.action.length).toBe(2)
     const nextState = takeVerb.action.reduce(
-      function (prior, action) { return action.call(mockContext(), prior) },
+      function (prior, action) { return action(mockContext(), prior) },
       priorState)
-    // const nextState = takeVerb.call(mockContext(), priorState)
     expect(nextState.getIn([READER_KEY, CURRENT_EVENT_KEY])).toBe('take-item')
     expect(nextState.getIn(
       [OBJECTS_KEY, 'mock', STATE_KEY, LOCATION_KEY]

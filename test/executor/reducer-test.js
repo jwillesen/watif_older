@@ -19,7 +19,7 @@ describe('executor/reducer', () => {
     expect(nextState.getIn([UC.READER_KEY, UC.CURRENT_EVENT_KEY])).toNotExist()
   })
 
-  it('sets the context to the outer object when executing verbs and passes in universe', () => {
+  it('executes verb actions and passes context object and universe', () => {
     const spy = expect.createSpy()
     const mockItem = item('mock', {
       description: 'a mock object',
@@ -34,9 +34,8 @@ describe('executor/reducer', () => {
       [UC.NAME_KEY]: 'spy',
     }))
     expect(spy).toHaveBeenCalled()
-    expect(spy.calls[0].context).toExist()
-    expect(spy.calls[0].context.toJS()).toEqual(mockItem)
-    expect(spy.calls[0].arguments[0]).toExist()
-    expect(spy.calls[0].arguments[0].toJS()).toEqual(initialState.toJS())
+    expect(spy.calls[0].arguments.length).toBe(2)
+    expect(spy.calls[0].arguments[0].toJS()).toEqual(mockItem)
+    expect(spy.calls[0].arguments[1]).toBe(initialState)
   })
 })

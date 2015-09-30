@@ -15,34 +15,34 @@ function isType (object, type) {
   return object && object.get(TYPE_KEY) === type
 }
 
-function findValidObject (universe, objectKey, objectType) {
+function checkValidObject (targetObject, universe, objectKey, objectType) {
   const object = findObject(universe, objectKey)
   if (!isType(object, objectType)) {
     throw new Error(
-      `unrecognized ${objectType} "${objectKey}" referenced from "${this.get(ID_KEY)}"`
+      `unrecognized ${objectType} "${objectKey}" referenced from "${targetObject.get(ID_KEY)}"`
     )
   }
   return object
 }
 
 export function triggerEvent (eventKey) {
-  return function (universe) {
-    findValidObject.call(this, universe, eventKey, EVENT_TYPE)
+  return function (targetObject, universe) {
+    checkValidObject(targetObject, universe, eventKey, EVENT_TYPE)
     return universe.setIn([READER_KEY, CURRENT_EVENT_KEY], eventKey)
   }
 }
 
 export function setCurrentRoom (roomKey) {
-  return function (universe) {
-    findValidObject.call(this, universe, roomKey, ROOM_TYPE)
+  return function (targetObject, universe) {
+    checkValidObject(targetObject, universe, roomKey, ROOM_TYPE)
     return universe.setIn([READER_KEY, CURRENT_ROOM_KEY], roomKey)
   }
 }
 
 export function takeItem (itemKey) {
-  return function (universe) {
-    if (!itemKey) itemKey = this.get(ID_KEY)
-    findValidObject.call(this, universe, itemKey, ITEM_TYPE)
+  return function (targetObject, universe) {
+    if (!itemKey) itemKey = targetObject.get(ID_KEY)
+    checkValidObject(targetObject, universe, itemKey, ITEM_TYPE)
     return universe.setIn([OBJECTS_KEY, itemKey, STATE_KEY, LOCATION_KEY], INVENTORY_LOCATION)
   }
 }
