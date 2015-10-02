@@ -73,8 +73,8 @@ describe('createReaderUpdate', () => {
       expect(spy).toHaveBeenCalled()
       expect(spy.calls.length).toBe(1)
       expect(spy.calls[0].arguments.length).toBe(2)
-      expect(spy.calls[0].arguments[0].toJS()).toEqual(rock)
-      expect(spy.calls[0].arguments[1]).toBe(universe)
+      expect(spy.calls[0].arguments[0]).toBe(universe)
+      expect(spy.calls[0].arguments[1].toJS()).toEqual(rock)
     })
 
     it('joins an array of strings', () => {
@@ -131,8 +131,8 @@ describe('createReaderUpdate', () => {
     createReaderUpdate(universe)
     expect(enabledSpy).toHaveBeenCalled()
     expect(enabledSpy.calls[0].arguments.length).toBe(2)
-    expect(enabledSpy.calls[0].arguments[0].toJS()).toEqual(rockItem)
-    expect(enabledSpy.calls[0].arguments[1]).toBe(universe)
+    expect(enabledSpy.calls[0].arguments[0]).toBe(universe)
+    expect(enabledSpy.calls[0].arguments[1].toJS()).toEqual(rockItem)
   })
 
   it('includes inventory', () => {

@@ -11,10 +11,10 @@ export default function createReaderState (universe) {
   }
 }
 
-function isVerbEnabled (verb, context, universe) {
+function isVerbEnabled (verb, universe, context) {
   const isEnabled = verb.get(UC.ENABLED_KEY)
   if (!isEnabled) return true
-  return isEnabled(context, universe)
+  return isEnabled(universe, context)
 }
 
 function createVerbContent (watifObject, verb) {
@@ -25,30 +25,30 @@ function createVerbContent (watifObject, verb) {
   }
 }
 
-function createVerbsContent (watifObject, universe) {
+function createVerbsContent (universe, watifObject) {
   const verbs = watifObject.get(UC.VERBS_KEY)
   if (!verbs) return []
   return verbs
-    .filter(verb => isVerbEnabled(verb, watifObject, universe))
+    .filter(verb => isVerbEnabled(verb, universe, watifObject))
     .map(verb => createVerbContent(watifObject, verb))
     .toJS()
 }
 
-function recurseCreateDescriptionContent (description, watifObject, universe) {
+function recurseCreateDescriptionContent (description, universe, watifObject) {
   if (Immutable.List.isList(description)) {
     return (description
-      .map(d => recurseCreateDescriptionContent(d, watifObject, universe))
+      .map(d => recurseCreateDescriptionContent(d, universe, watifObject))
       .join(' ')
     )
   } else if (_.isFunction(description)) {
-    return description(watifObject, universe)
+    return description(universe, watifObject)
   }
   return description
 }
 
-function createDescriptionContent (watifObject, universe) {
+function createDescriptionContent (universe, watifObject) {
   const description = watifObject.get(UC.DESCRIPTION_KEY)
-  return recurseCreateDescriptionContent(description, watifObject, universe)
+  return recurseCreateDescriptionContent(description, universe, watifObject)
 }
 
 function createInventory (universe) {
@@ -60,17 +60,17 @@ function createInventory (universe) {
   return { [UC.INVENTORY_KEY]: objects.toJS() }
 }
 
-function createFieldContent (watifObject, universe) {
+function createFieldContent (universe, watifObject) {
   return {
     [UC.ID_KEY]: watifObject.get(UC.ID_KEY),
     [UC.NAME_KEY]: watifObject.get(UC.NAME_KEY),
-    [UC.DESCRIPTION_KEY]: createDescriptionContent(watifObject, universe),
-    [UC.VERBS_KEY]: createVerbsContent(watifObject, universe),
+    [UC.DESCRIPTION_KEY]: createDescriptionContent(universe, watifObject),
+    [UC.VERBS_KEY]: createVerbsContent(universe, watifObject),
   }
 }
 
 function createUiField (universe, fieldKey) {
   const currentObjectId = universe.getIn([UC.READER_KEY, fieldKey])
   const currentObject = universe.getIn([UC.OBJECTS_KEY, currentObjectId])
-  if (currentObject) return {[fieldKey]: createFieldContent(currentObject, universe)}
+  if (currentObject) return {[fieldKey]: createFieldContent(universe, currentObject)}
 }

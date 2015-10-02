@@ -29,7 +29,7 @@ function handleExecuteVerb (universe, action) {
   if (typeof actions === 'function') actions = Immutable.List.of(actions)
 
   const nextUniverse = actions.reduce(
-    (priorUniverse, action) => action(mainTargetObject, priorUniverse),
+    (priorUniverse, action) => action(priorUniverse, mainTargetObject),
     universe)
   return nextUniverse
 }

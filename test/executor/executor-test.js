@@ -33,7 +33,7 @@ describe('Executor', () => {
 
   it('invokes verb and updateReader callback on executeVerb', () => {
     const callback = expect.createSpy()
-    const knockAction = expect.createSpy().andCall((o, u) => u)
+    const knockAction = expect.createSpy().andCall(u => u)
 
     const exec = createExecutor({
       updateReader: callback,

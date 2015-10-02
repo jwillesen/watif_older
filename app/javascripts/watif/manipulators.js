@@ -15,7 +15,7 @@ function isType (object, type) {
   return object && object.get(TYPE_KEY) === type
 }
 
-function checkValidObject (targetObject, universe, objectKey, objectType) {
+function checkValidObject (universe, targetObject, objectKey, objectType) {
   const object = findObject(universe, objectKey)
   if (!isType(object, objectType)) {
     throw new Error(
@@ -26,23 +26,23 @@ function checkValidObject (targetObject, universe, objectKey, objectType) {
 }
 
 export function triggerEvent (eventKey) {
-  return function (targetObject, universe) {
-    checkValidObject(targetObject, universe, eventKey, EVENT_TYPE)
+  return function (universe, targetObject) {
+    checkValidObject(universe, targetObject, eventKey, EVENT_TYPE)
     return universe.setIn([READER_KEY, CURRENT_EVENT_KEY], eventKey)
   }
 }
 
 export function setCurrentRoom (roomKey) {
-  return function (targetObject, universe) {
-    checkValidObject(targetObject, universe, roomKey, ROOM_TYPE)
+  return function (universe, targetObject) {
+    checkValidObject(universe, targetObject, roomKey, ROOM_TYPE)
     return universe.setIn([READER_KEY, CURRENT_ROOM_KEY], roomKey)
   }
 }
 
 export function takeItem (itemKey) {
-  return function (targetObject, universe) {
+  return function (universe, targetObject) {
     if (!itemKey) itemKey = targetObject.get(ID_KEY)
-    checkValidObject(targetObject, universe, itemKey, ITEM_TYPE)
+    checkValidObject(universe, targetObject, itemKey, ITEM_TYPE)
     return universe.setIn([OBJECTS_KEY, itemKey, STATE_KEY, LOCATION_KEY], INVENTORY_LOCATION)
   }
 }
