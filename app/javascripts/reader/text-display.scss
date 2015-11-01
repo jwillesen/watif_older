@@ -35,7 +35,7 @@ $footerHeight: $headerHeight;
 .text-display__body {
   flex: 1 1 0;
   padding: 10px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .text-display__footer {
