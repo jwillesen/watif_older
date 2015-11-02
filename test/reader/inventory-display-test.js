@@ -1,8 +1,9 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
-import React from 'react/addons'
-const TestUtils = React.addons.TestUtils
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TestUtils from 'react-addons-test-utils'
 
 import InventoryDisplay from 'reader/inventory-display'
 
@@ -11,8 +12,8 @@ describe('InventoryDisplay', () => {
 
   afterEach(() => {
     if (component) {
-      const container = React.findDOMNode(component).parentNode
-      React.unmountComponentAtNode(container)
+      const container = ReactDOM.findDOMNode(component).parentNode
+      ReactDOM.unmountComponentAtNode(container)
       component = null
     }
   })

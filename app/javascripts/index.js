@@ -3,6 +3,7 @@ require('bootstrap/dist/css/bootstrap.css')
 require('imports?jQuery=jquery!bootstrap/dist/js/bootstrap.js')
 
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {Provider} from 'react-redux'
@@ -42,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bookExecutor.start()
 
-  React.render(
+  ReactDOM.render(
     <Provider store={readerStore}>
-      {() => <App executor={bookExecutor} />}
+      <App executor={bookExecutor} />
     </Provider>,
-    document.body)
+    document.getElementById('watif-reader'))
 })

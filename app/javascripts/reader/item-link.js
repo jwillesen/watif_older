@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import shouldUpdate from './smart-should-update'
 import newTextAnimation from './new-text-animation'
 
@@ -25,13 +26,13 @@ export default class ItemLink extends React.Component {
 
   componentDidMount () {
     if (this.props.shouldAnimate) {
-      newTextAnimation(React.findDOMNode(this))
+      newTextAnimation(ReactDOM.findDOMNode(this))
     }
   }
 
   componentDidUpdate () {
     if (this.props.shouldAnimate) {
-      newTextAnimation(React.findDOMNode(this))
+      newTextAnimation(ReactDOM.findDOMNode(this))
     }
   }
 

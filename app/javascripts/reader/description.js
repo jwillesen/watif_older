@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import shouldUpdate from './smart-should-update'
 import newTextAnimation from './new-text-animation'
 import ItemLink from './item-link'
@@ -38,11 +39,11 @@ export default class Description extends React.Component {
   }
 
   componentDidMount () {
-    newTextAnimation(React.findDOMNode(this))
+    newTextAnimation(ReactDOM.findDOMNode(this))
   }
 
   componentDidUpdate () {
-    newTextAnimation(React.findDOMNode(this))
+    newTextAnimation(ReactDOM.findDOMNode(this))
   }
 
   renderParagraph (paragraph, index) {

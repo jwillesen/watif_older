@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import TweenLite from 'gsap/TweenLite'
 require('gsap/ScrollToPlugin')
 
@@ -23,7 +24,7 @@ export default class LogDisplay extends React.Component
   }
 
   componentDidUpdate () {
-    const bodyElement = React.findDOMNode(this.refs.display.refs.body)
+    const bodyElement = ReactDOM.findDOMNode(this.refs.display.refs.body)
     const lastLogElement = bodyElement.lastChild
 
     const maxScrollTop = bodyElement.scrollHeight - bodyElement.clientHeight

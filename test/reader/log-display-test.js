@@ -3,12 +3,11 @@
 import expect from 'expect'
 import LogDisplay from 'reader/log-display'
 import TextDisplay from 'reader/text-display'
-import React from 'react/addons'
+import React from 'react'
+import TestUtils from 'react-addons-test-utils'
 
 import EventLog from 'reader/event-log'
 import CommandLog from 'reader/command-log'
-
-const TestUtils = React.addons.TestUtils
 
 describe('LogDisplay', () => {
   it('passes history elements as children to TextDisplay', () => {

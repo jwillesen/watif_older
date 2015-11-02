@@ -2,17 +2,17 @@
 
 import expect from 'expect'
 import TextDisplay from 'reader/text-display'
-import React from 'react/addons'
-
-const TestUtils = React.addons.TestUtils
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TestUtils from 'react-addons-test-utils'
 
 describe('TextDisplay', () => {
   let component = null
 
   afterEach(() => {
     if (component) {
-      const container = React.findDOMNode(component).parentNode
-      React.unmountComponentAtNode(container)
+      const container = ReactDOM.findDOMNode(component).parentNode
+      ReactDOM.unmountComponentAtNode(container)
       component = null
     }
   })
@@ -24,11 +24,11 @@ describe('TextDisplay', () => {
       </TextDisplay>
     )
     const titleComponent = TestUtils.findRenderedDOMComponentWithClass(component, 'text-display__header')
-    const titleNode = React.findDOMNode(titleComponent)
+    const titleNode = ReactDOM.findDOMNode(titleComponent)
     expect(titleNode.textContent).toBe('test title')
 
     const textComponent = TestUtils.findRenderedDOMComponentWithClass(component, 'text-display__body')
-    const textNode = React.findDOMNode(textComponent)
+    const textNode = ReactDOM.findDOMNode(textComponent)
     expect(textNode.textContent).toBe('test text')
   })
 
@@ -42,7 +42,7 @@ describe('TextDisplay', () => {
     component = TestUtils.renderIntoDocument(<TextDisplay verbs={verbs} />)
     const buttonComponents = TestUtils.scryRenderedDOMComponentsWithTag(component, 'button')
     expect(buttonComponents.length).toBe(3)
-    const buttonNodes = buttonComponents.map(bc => React.findDOMNode(bc))
+    const buttonNodes = buttonComponents.map(bc => ReactDOM.findDOMNode(bc))
     expect(buttonNodes[0].textContent).toBe('first')
     expect(buttonNodes[1].textContent).toBe('second')
     expect(buttonNodes[2].textContent).toBe('third')
@@ -57,7 +57,7 @@ describe('TextDisplay', () => {
     const verbSpy = expect.createSpy()
     component = TestUtils.renderIntoDocument(<TextDisplay verbs={verbs} onVerb={verbSpy}/>)
     const buttonComponents = TestUtils.scryRenderedDOMComponentsWithTag(component, 'button')
-    const buttonNodes = buttonComponents.map(bc => React.findDOMNode(bc))
+    const buttonNodes = buttonComponents.map(bc => ReactDOM.findDOMNode(bc))
     TestUtils.Simulate.click(buttonNodes[1], {})
     expect(verbSpy).toHaveBeenCalledWith(verbs[1])
   })
