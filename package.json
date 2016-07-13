@@ -12,7 +12,8 @@
     "spec": "karma start",
     "spec:watch": "karma start --single-run=false",
     "check-updates": "npm-check -su",
-    "clean": "rm -rf public/js"
+    "clean": "rm -rf public/js",
+    "tags": "ctags --recurse --exclude=@.gitignore --verbose -f .tags lib"
   },
   "author": "Jon Willesen",
   "license": "MIT",

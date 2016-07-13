@@ -1,5 +1,7 @@
 node_modules
-/*-workspace
-/dist
-/coverage
-/public/js
+*-workspace
+dist
+coverage
+public/js
+npm-debug.log
+.tags
