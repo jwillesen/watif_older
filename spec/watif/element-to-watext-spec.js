@@ -3,7 +3,7 @@
 import React from 'react'
 import expect from 'expect'
 
-import elementToWatext from 'watif/element-to-watext'
+import elementToWatext from 'watif/watext/element-to-watext'
 
 describe('elementToWatext', () => {
   it('translates simple string to string (base case)', () => {

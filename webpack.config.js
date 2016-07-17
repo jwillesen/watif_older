@@ -33,6 +33,13 @@ module.exports = {
 
   devtool: '#inline-source-map',
 
+  // React 15 externals for enzyme. See http://airbnb.io/enzyme/docs/guides/webpack.html
+  externals: {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+  },
+
   module: {
     preLoaders: [{
       test: /\.js$/,
@@ -46,6 +53,7 @@ module.exports = {
         loader: 'babel',
         include: [path.resolve('lib')],
       },
+      { test: /\.json$/, loader: 'json' },
       { test: /\.scss$/, loader: 'style!css!postcss!sass', exclude: /node_modules/ },
       { test: /\.css$/, loader: 'style!css!postcss', exclude: /node_modules/ },
     ],
