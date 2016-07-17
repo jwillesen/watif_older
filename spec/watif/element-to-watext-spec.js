@@ -10,7 +10,7 @@ describe('elementToWatext', () => {
     expect(elementToWatext('string')).toBe('string')
   })
 
-  it('translates number to string (baes case)', () => {
+  it('translates number to string (base case)', () => {
     expect(elementToWatext(42)).toBe('42')
   })
 
