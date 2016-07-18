@@ -3,7 +3,7 @@
 import expect from 'expect'
 import StoryPlayerActionAdapter from 'watif/master/story-player-action-adapter'
 
-describe(StoryPlayerActionAdapter, () => {
+describe('StoryPlayerActionAdapter', () => {
   const createJailed = () => {
     return {
       setInterface: expect.createSpy(),
