@@ -5,8 +5,8 @@ import augment from 'watif/augment'
 
 describe('augment', () => {
   it('supports dot syntax', () => {
-    class MixA { a () { return 'a' }}
-    class MixB { b () { return 'b' }}
+    const MixA = Base => class extends Base { a () { return 'a' }}
+    const MixB = Base => class extends Base { b () { return 'b' }}
     class Base {
       static augment (Mixin) { return augment(this, Mixin) }
       base () { return 'base' }
@@ -25,7 +25,7 @@ describe('augment', () => {
   })
 
   it('allows overrides of mixin methods', () => {
-    class MixA {
+    const MixA = Base => class extends Base {
       a () { return 'a' }
       base () { return 'base override' }
     }
@@ -40,18 +40,37 @@ describe('augment', () => {
   })
 
   it('supports base class statics', () => {
-    class MixA {}
+    const MixA = (Base) => class MixA extends Base {}
     class Base { static sb () { return 'sb' }}
     class Mixed extends augment(Base, MixA) {}
     expect(Mixed.sb()).toBe('sb')
   })
 
+  it('allows calls to super', () => {
+    const mixSpy = expect.createSpy()
+    const baseSpy = expect.createSpy()
+    class Base { func () { baseSpy() }}
+    const Mix = (Base) => class Mix extends Base {
+      func () { mixSpy(); super.func() }
+    }
+    class D extends augment(Base, Mix) {}
+    new D().func()
+    expect(mixSpy).toHaveBeenCalled()
+    expect(baseSpy).toHaveBeenCalled()
+  })
+
   // this doesn't work yet
-  it('supports mixin class statics')
-  // it('supports mixin statics', () => {
-  //   class MixA { static sa () { return 'sa' }}
-  //   class Base {}
-  //   class Mixed extends augment(Base, MixA) {}
-  //   expect(Mixed.sa()).toBe('sa')
-  // })
+  it('supports mixin class statics', () => {
+    const MixA = Base => class extends Base { static sm () { return 'sm' }}
+    class Base {}
+    class Mixed extends augment(Base, MixA) {}
+    expect(Mixed.sm()).toBe('sm')
+  })
+
+  it('supports mixin statics', () => {
+    const MixA = Base => class extends Base { static sa () { return 'sa' }}
+    class Base {}
+    class Mixed extends augment(Base, MixA) {}
+    expect(Mixed.sa()).toBe('sa')
+  })
 })
