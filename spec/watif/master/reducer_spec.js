@@ -36,7 +36,7 @@ describe('master reducer', () => {
     let state = initialUniverseState()
     state = reducer(state, relocateItem('Foo', 'Bar'))
     expect(state.getIn([Const.ITEMS, 'Foo', Const.STATE, Const.LOCATION])).toBe('Bar')
-    expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTAINS]).toJS())
+    expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTENTS]).toJS())
       .toEqual(['Foo'])
   })
 
@@ -45,16 +45,16 @@ describe('master reducer', () => {
     state = reducer(state, relocateItem('Foo', 'Bar'))
     state = reducer(state, relocateItem('Foo', null))
     expect(getStateOf(state, 'Foo').get(Const.LOCATION)).toBe(null)
-    expect(getStateOf(state, 'Bar').get(Const.CONTAINS).includes('Foo')).toBeFalsy()
+    expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeFalsy()
   })
 
   it('relocates items from one item to another', () => {
     let state = initialUniverseState()
     state = reducer(state, relocateItem('Foo', 'Bar'))
-    expect(getStateOf(state, 'Bar').get(Const.CONTAINS).includes('Foo')).toBeTruthy()
+    expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeTruthy()
     state = reducer(state, relocateItem('Foo', 'Baz'))
-    expect(getStateOf(state, 'Bar').get(Const.CONTAINS).includes('Foo')).toBeFalsy()
-    expect(getStateOf(state, 'Baz').get(Const.CONTAINS).includes('Foo')).toBeTruthy()
+    expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeFalsy()
+    expect(getStateOf(state, 'Baz').get(Const.CONTENTS).includes('Foo')).toBeTruthy()
   })
 
   it('processes equivalent source and destination as a noop', () => {
@@ -62,7 +62,7 @@ describe('master reducer', () => {
     state = reducer(state, relocateItem('Foo', 'Bar'))
     state = reducer(state, relocateItem('Foo', 'Bar'))
     expect(state.getIn([Const.ITEMS, 'Foo', Const.STATE, Const.LOCATION])).toBe('Bar')
-    expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTAINS]).toJS())
+    expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTENTS]).toJS())
       .toEqual(['Foo'])
   })
 })
