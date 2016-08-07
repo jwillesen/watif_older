@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
-// import Immutable from 'immutable'
-import Item from 'watif/story/item'
 import reducer from 'watif/master/reducer'
-import {relocateItem, createItem} from 'watif/master/actions'
+
+import Item from 'watif/story/item'
+import * as Actions from 'watif/master/actions'
 import * as Const from 'watif/master/constants'
 
 class Foo extends Item {
@@ -21,9 +21,9 @@ class Baz extends Item {
 
 function initialUniverseState () {
   let state = reducer(undefined, {type: 'init'})
-  state = reducer(state, createItem(Foo))
-  state = reducer(state, createItem(Bar))
-  state = reducer(state, createItem(Baz))
+  state = reducer(state, Actions.createItem(Foo))
+  state = reducer(state, Actions.createItem(Bar))
+  state = reducer(state, Actions.createItem(Baz))
   return state
 }
 
@@ -32,37 +32,52 @@ function getStateOf (state, itemId) {
 }
 
 describe('master reducer', () => {
-  it('relocates items from the void', () => {
-    let state = initialUniverseState()
-    state = reducer(state, relocateItem('Foo', 'Bar'))
-    expect(state.getIn([Const.ITEMS, 'Foo', Const.STATE, Const.LOCATION])).toBe('Bar')
-    expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTENTS]).toJS())
-      .toEqual(['Foo'])
+  describe('log', () => {
+    it('appends log items to log', () => {
+      let state = initialUniverseState()
+      state = reducer(state, Actions.addLog('first log'))
+      expect(state.getIn([Const.PLAYER, Const.LOG]).toJS())
+        .toEqual(['first log'])
+
+      state = reducer(state, Actions.addLog('second log'))
+      expect(state.getIn([Const.PLAYER, Const.LOG]).toJS())
+        .toEqual(['first log', 'second log'])
+    })
   })
 
-  it('relocates items to the void', () => {
-    let state = initialUniverseState()
-    state = reducer(state, relocateItem('Foo', 'Bar'))
-    state = reducer(state, relocateItem('Foo', null))
-    expect(getStateOf(state, 'Foo').get(Const.LOCATION)).toBe(null)
-    expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeFalsy()
-  })
+  describe('relocation', () => {
+    it('relocates items from the void', () => {
+      let state = initialUniverseState()
+      state = reducer(state, Actions.relocateItem('Foo', 'Bar'))
+      expect(state.getIn([Const.ITEMS, 'Foo', Const.STATE, Const.LOCATION])).toBe('Bar')
+      expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTENTS]).toJS())
+        .toEqual(['Foo'])
+    })
 
-  it('relocates items from one item to another', () => {
-    let state = initialUniverseState()
-    state = reducer(state, relocateItem('Foo', 'Bar'))
-    expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeTruthy()
-    state = reducer(state, relocateItem('Foo', 'Baz'))
-    expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeFalsy()
-    expect(getStateOf(state, 'Baz').get(Const.CONTENTS).includes('Foo')).toBeTruthy()
-  })
+    it('relocates items to the void', () => {
+      let state = initialUniverseState()
+      state = reducer(state, Actions.relocateItem('Foo', 'Bar'))
+      state = reducer(state, Actions.relocateItem('Foo', null))
+      expect(getStateOf(state, 'Foo').get(Const.LOCATION)).toBe(null)
+      expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeFalsy()
+    })
 
-  it('processes equivalent source and destination as a noop', () => {
-    let state = initialUniverseState()
-    state = reducer(state, relocateItem('Foo', 'Bar'))
-    state = reducer(state, relocateItem('Foo', 'Bar'))
-    expect(state.getIn([Const.ITEMS, 'Foo', Const.STATE, Const.LOCATION])).toBe('Bar')
-    expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTENTS]).toJS())
-      .toEqual(['Foo'])
+    it('relocates items from one item to another', () => {
+      let state = initialUniverseState()
+      state = reducer(state, Actions.relocateItem('Foo', 'Bar'))
+      expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeTruthy()
+      state = reducer(state, Actions.relocateItem('Foo', 'Baz'))
+      expect(getStateOf(state, 'Bar').get(Const.CONTENTS).includes('Foo')).toBeFalsy()
+      expect(getStateOf(state, 'Baz').get(Const.CONTENTS).includes('Foo')).toBeTruthy()
+    })
+
+    it('processes equivalent source and destination as a noop', () => {
+      let state = initialUniverseState()
+      state = reducer(state, Actions.relocateItem('Foo', 'Bar'))
+      state = reducer(state, Actions.relocateItem('Foo', 'Bar'))
+      expect(state.getIn([Const.ITEMS, 'Foo', Const.STATE, Const.LOCATION])).toBe('Bar')
+      expect(state.getIn([Const.ITEMS, 'Bar', Const.STATE, Const.CONTENTS]).toJS())
+        .toEqual(['Foo'])
+    })
   })
 })
