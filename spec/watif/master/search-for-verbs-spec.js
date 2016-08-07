@@ -6,9 +6,9 @@ import searchForVerbs from 'watif/master/search-for-verbs'
 describe('search-for-verbs', () => {
   it('finds simple verb methods on an object', () => {
     const obj = {
-      verb_open: function () {},
-      verb_close: function () {},
-      do_other_stuff: function () {},
+      verbOpen: function () {},
+      verbClose: function () {},
+      doOtherStuff: function () {},
     }
     const verbs = searchForVerbs(obj)
     verbs.sort()
@@ -16,8 +16,8 @@ describe('search-for-verbs', () => {
   })
 
   it('finds verbs in the prototype chain', () => {
-    const prototypeBase = { verb_jump: () => {} }
-    const prototypeDerived = Object.create(prototypeBase, { verb_frob: () => {} })
+    const prototypeBase = { verbJump: () => {} }
+    const prototypeDerived = Object.create(prototypeBase, { verbFrob: () => {} })
     const obj = Object.create(prototypeDerived)
     const verbs = searchForVerbs(obj)
     verbs.sort()
@@ -25,13 +25,13 @@ describe('search-for-verbs', () => {
   })
 
   it('filters verbs based on predicate methods', () => {
-    const verbs = searchForVerbs({ verb_jump: () => {}, can_jump: () => false })
+    const verbs = searchForVerbs({ verbJump: () => {}, canJump: () => false })
     expect(verbs).toEqual([])
   })
 
   it('finds inenumerable methods', () => {
     const obj = {}
-    Object.defineProperty(obj, 'verb_search', {
+    Object.defineProperty(obj, 'verbSearch', {
       enumerable: false,
       value: () => {},
     })

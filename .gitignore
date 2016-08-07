@@ -3,5 +3,6 @@ node_modules
 dist
 coverage
 public/js
+public/stories
 npm-debug.log
 .tags
