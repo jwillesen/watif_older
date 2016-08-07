@@ -14,7 +14,8 @@
     "check-updates": "npm-check -su",
     "clean": "rm -rf public/js",
     "tags": "ctags --recurse --exclude=@.gitignore --verbose -f .tags lib",
-    "pack-house-sitting": "webpack --config=examples/house-sitting/webpack.config.js --colors --progress -d"
+    "pack-house-sitting": "webpack --config=examples/house-sitting/webpack.config.js --colors --progress -d",
+    "pack-house-sitting:watch": "webpack --config=examples/house-sitting/webpack.config.js --watch --colors --progress -d"
   },
   "author": "Jon Willesen",
   "license": "MIT",

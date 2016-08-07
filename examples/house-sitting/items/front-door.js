@@ -5,7 +5,7 @@ export class FrontPorch extends Room {
   describe () {
     return <text>
       Ivy covers the entire right side of the porch. It would take a lot of work to make it usable again.
-      On the left side is <item id={FrontDoor}>an old door.</item>
+      On the left side is <item id={'FrontDoor'}>an old door.</item>
     </text>
   }
 }
