@@ -12,7 +12,7 @@ describe('Universe', () => {
 
   const makeItem = () => {
     return {
-      selectItem: expect.createSpy(),
+      examineItem: expect.createSpy(),
       executeVerb: expect.createSpy(),
       description: () => 'an item',
     }
@@ -22,7 +22,7 @@ describe('Universe', () => {
     return {
       _item: makeItem(),
       getItem: function () { return this._item },
-      selectItem: expect.createSpy(),
+      examineItem: expect.createSpy(),
       executeVerb: expect.createSpy(),
     }
   }
@@ -43,17 +43,17 @@ describe('Universe', () => {
 
   it('calls item selection on items', () => {
     const universe = makeUniverse()
-    universe.getStory().getItem().selectItem.andReturn(true)
+    universe.getStory().getItem().examineItem.andReturn(true)
     universe.handleSelectItem('spy')
-    expect(universe.getStory().getItem().selectItem).toHaveBeenCalled()
+    expect(universe.getStory().getItem().examineItem).toHaveBeenCalled()
   })
 
   it('calls item selection on story', () => {
     const universe = makeUniverse()
-    universe.getStory().selectItem.andReturn(true)
+    universe.getStory().examineItem.andReturn(true)
     universe.handleSelectItem('spy')
     const item = universe.getStory().getItem()
-    expect(universe.getStory().selectItem).toHaveBeenCalledWith(universe, item)
+    expect(universe.getStory().examineItem).toHaveBeenCalledWith(universe, item)
   })
 
   it('dispatches select item action', () => {
@@ -61,7 +61,7 @@ describe('Universe', () => {
     const store = universe.getStore()
     universe.handleSelectItem('spy')
     expect(store.dispatch).toHaveBeenCalled()
-    expect(store.dispatch.calls[0].arguments[0]).toMatch({type: actions.SELECT_ITEM})
+    expect(store.dispatch.calls[0].arguments[0]).toMatch({type: actions.EXAMINE_ITEM})
   })
 
   it('calls verb execution on subject item', () => {

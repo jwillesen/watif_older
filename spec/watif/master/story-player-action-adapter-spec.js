@@ -21,12 +21,12 @@ describe('StoryPlayerActionAdapter', () => {
   it('calls callbacks', () => {
     const jailed = createJailed()
     const callbacks = {
-      selectItem: expect.createSpy(),
+      examineItem: expect.createSpy(),
       selectVerb: expect.createSpy(),
     }
     const adapter = new StoryPlayerActionAdapter(callbacks, {application: jailed})
     adapter.handlePlayerItemSelected('42')
-    expect(callbacks.selectItem).toHaveBeenCalledWith('42')
+    expect(callbacks.examineItem).toHaveBeenCalledWith('42')
     adapter.handlePlayerVerbSelected('42', 'frob', '43')
     expect(callbacks.selectVerb).toHaveBeenCalledWith('42', 'frob', '43')
   })

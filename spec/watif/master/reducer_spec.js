@@ -36,11 +36,11 @@ describe('master reducer', () => {
     it('appends log items to log', () => {
       let state = initialUniverseState()
       state = reducer(state, Actions.addLog('first log'))
-      expect(state.getIn([Const.PLAYER, Const.LOG]).toJS())
+      expect(state.getIn([Const.PLAYER_STATE, Const.LOG]).toJS())
         .toEqual(['first log'])
 
       state = reducer(state, Actions.addLog('second log'))
-      expect(state.getIn([Const.PLAYER, Const.LOG]).toJS())
+      expect(state.getIn([Const.PLAYER_STATE, Const.LOG]).toJS())
         .toEqual(['first log', 'second log'])
     })
   })
