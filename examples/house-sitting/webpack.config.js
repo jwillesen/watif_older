@@ -4,13 +4,15 @@ var path = require('path')
 
 module.exports = {
   entry: {
-    bundle: path.join(__dirname, 'index.js'),
+    story: path.join(__dirname, 'index.js'),
   },
 
   output: {
     path: path.join(__dirname, '../../public/stories'),
     publicPath: '/stories/',
     filename: 'house-sitting.js',
+    library: 'HouseSitting',
+    libraryTarget: 'var',
   },
 
   resolve: {

@@ -9,6 +9,7 @@
     "webpack": "webpack --colors --progress -d",
     "webpack:prod": "webpack --colors --progress -p",
     "webpack:watch": "webpack --colors --watch -d",
+    "link": "scripts/link.sh",
     "spec": "karma start",
     "spec:watch": "karma start --single-run=false",
     "check-updates": "npm-check -su",
