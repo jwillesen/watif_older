@@ -1,9 +1,12 @@
-import registry from 'watif/story/item-registry'
+const itemClasses = []
+// const pluginClasses = []
 
 const itemsContext = require.context('./items', true, /\.js$/)
 itemsContext.keys().forEach((file) => {
   const exportedItems = itemsContext(file)
-  Object.keys(exportedItems).forEach(itemKey => registry.register(exportedItems[itemKey]))
+  Object.keys(exportedItems).forEach(itemKey => itemClasses.push(exportedItems[itemKey]))
 })
 
-export const house = { house: 'House' }
+export const title = 'House Sitting'
+export const items = itemClasses
+// export const plugins = pluginClasses

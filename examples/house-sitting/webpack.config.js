@@ -11,7 +11,7 @@ module.exports = {
     path: path.join(__dirname, '../../public/stories'),
     publicPath: '/stories/',
     filename: 'house-sitting.js',
-    library: 'HouseSitting',
+    library: 'WatifStory',
     libraryTarget: 'var',
   },
 
