@@ -7,7 +7,7 @@ var autoprefixer = require('autoprefixer')
 module.exports = {
   entry: {
     bundle: './lib/index.js',
-    universe: './lib/watif/master/index.js',
+    'universe-bundle': './lib/watif/master/index.js',
   },
 
   output: {

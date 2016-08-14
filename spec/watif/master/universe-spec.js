@@ -1,100 +1,93 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
+
 import Universe from 'watif/master/universe'
-import * as actions from 'watif/master/actions'
+import * as Actions from 'watif/master/Actions'
 
 describe('Universe', () => {
+  let pluginReducerSpy = null
+  let testItem = null
+
   const makeAdapter = () => {
     return {
     }
   }
 
-  const makeItem = () => {
-    return {
-      examineItem: expect.createSpy(),
-      executeVerb: expect.createSpy(),
-      description: () => 'an item',
-    }
+  function TestItem () {
+    testItem = this
+  }
+
+  const makeItemClass = () => {
+    TestItem.prototype.description = expect.createSpy().andReturn('a test item')
+    TestItem.prototype.verbFrob = expect.createSpy()
+    return TestItem
+  }
+
+  const makePlugins = () => {
+    pluginReducerSpy = expect.createSpy().andCall((state, action) => state)
+    return [{
+      reducer: pluginReducerSpy,
+    }]
   }
 
   const makeStory = () => {
     return {
-      _item: makeItem(),
-      getItem: function () { return this._item },
-      examineItem: expect.createSpy(),
-      executeVerb: expect.createSpy(),
+      title: 'Test Story',
+      items: [makeItemClass()],
+      plugins: makePlugins(),
     }
   }
 
-  const makeStore = () => {
-    return {
-      dispatch: expect.createSpy(),
-    }
+  const makeUniverse = (store) => {
+    return new Universe(
+      makeStory(), {
+        adapter: makeAdapter(),
+        store: store,
+      }
+    )
   }
 
-  const makeUniverse = () => {
-    return new Universe({
-      adapter: makeAdapter(),
-      story: makeStory(),
-      store: makeStore(),
-    })
-  }
-
-  it('calls item selection on items', () => {
+  it('initializes and finds items', () => {
     const universe = makeUniverse()
-    universe.getStory().getItem().examineItem.andReturn(true)
-    universe.handleSelectItem('spy')
-    expect(universe.getStory().getItem().examineItem).toHaveBeenCalled()
+    expect(universe.findItem('TestItem')).toBeA(TestItem)
   })
 
-  it('calls item selection on story', () => {
-    const universe = makeUniverse()
-    universe.getStory().examineItem.andReturn(true)
-    universe.handleSelectItem('spy')
-    const item = universe.getStory().getItem()
-    expect(universe.getStory().examineItem).toHaveBeenCalledWith(universe, item)
+  it('calls plugin reducer', () => {
+    makeUniverse()
+    expect(pluginReducerSpy).toHaveBeenCalled()
   })
 
-  it('dispatches select item action', () => {
+  it('dispatches error when selected item not found', () => {
     const universe = makeUniverse()
-    const store = universe.getStore()
-    universe.handleSelectItem('spy')
-    expect(store.dispatch).toHaveBeenCalled()
-    expect(store.dispatch.calls[0].arguments[0]).toMatch({type: actions.EXAMINE_ITEM})
+    universe.handleSelectItem('DoesNotExist')
+    const call = pluginReducerSpy.calls.pop()
+    expect(call.arguments[1]).toMatch({type: Actions.DISPLAY_ERROR})
   })
 
-  it('calls verb execution on subject item', () => {
+  it('dispatches error when verb subject not found', () => {
     const universe = makeUniverse()
-    const item = universe.getStory().getItem()
-    item.executeVerb.andReturn(true)
-    universe.handleExecuteVerb('42', 'frob', '43')
-    expect(item.executeVerb.calls.length).toBe(1)
-    expect(item.executeVerb).toHaveBeenCalledWith(universe, 'frob', item)
-    expect(universe.getStore().dispatch).toNotHaveBeenCalled()
+    universe.handleExecuteVerb('Frob', 'duck', 'TestItem')
+    const call = pluginReducerSpy.calls.pop()
+    expect(call.arguments[1]).toMatch({type: Actions.DISPLAY_ERROR})
   })
 
-  it('calls verb execution on target item', () => {
+  it('dispatches error when verb target not found', () => {
     const universe = makeUniverse()
-    const item = universe.getStory().getItem()
-    universe.handleExecuteVerb('42', 'frob', '43')
-    expect(item.executeVerb.calls.length).toBe(2)
-    expect(item.executeVerb).toHaveBeenCalledWith(universe, 'frob', item)
+    universe.handleExecuteVerb('Frob', 'TestItem', 'duck')
+    const call = pluginReducerSpy.calls.pop()
+    expect(call.arguments[1]).toMatch({type: Actions.DISPLAY_ERROR})
   })
 
-  it('calls verb execution on story', () => {
+  it('dispatches successfully when target is not specified', () => {
     const universe = makeUniverse()
-    expect(universe.getStory().executeVerb.andReturn(true))
-    universe.handleExecuteVerb('42', 'frob', '43')
-    expect(universe.getStory().executeVerb).toHaveBeenCalled()
-    expect(universe.getStore().dispatch).toNotHaveBeenCalled()
+    universe.handleExecuteVerb('Frob', 'TestItem')
+    expect(testItem.verbFrob).toHaveBeenCalled()
   })
 
-  it('dispatches display error if verb is not handled', () => {
+  it('dispatches successfully when subject and target are found', () => {
     const universe = makeUniverse()
-    universe.handleExecuteVerb('42', 'frob', '43')
-    const store = universe.getStore()
-    expect(store.dispatch).toHaveBeenCalled()
-    expect(store.dispatch.calls[0].arguments[0]).toMatch({type: actions.DISPLAY_ERROR})
+    universe.handleExecuteVerb('Frob', 'TestItem', 'TestItem')
+    expect(testItem.verbFrob).toHaveBeenCalledWith(testItem)
   })
 })

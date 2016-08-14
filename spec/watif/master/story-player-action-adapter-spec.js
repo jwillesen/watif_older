@@ -27,8 +27,8 @@ describe('StoryPlayerActionAdapter', () => {
     const adapter = new StoryPlayerActionAdapter(callbacks, {application: jailed})
     adapter.handlePlayerItemSelected('42')
     expect(callbacks.examineItem).toHaveBeenCalledWith('42')
-    adapter.handlePlayerVerbSelected('42', 'frob', '43')
-    expect(callbacks.selectVerb).toHaveBeenCalledWith('42', 'frob', '43')
+    adapter.handlePlayerVerbSelected('frob', 'mug', 'handle')
+    expect(callbacks.selectVerb).toHaveBeenCalledWith('frob', 'mug', 'handle')
   })
 
   it('calls remote method', () => {
