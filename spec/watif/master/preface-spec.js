@@ -1,42 +1,38 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
-
-import * as Actions from 'watif/master/actions'
 import preface from 'watif/master/preface'
 
 class TestItem {
-  constructor () {
-    this.constructorSpy = expect.createSpy()
-    this.constructorSpy(...arguments)
+  constructor (universe) {
+    this.universe = universe
   }
-}
 
-function mockStore () {
-  return {
-    dispatch: expect.createSpy(),
-  }
+  initialLocation () { return 'TheAbyss' }
 }
 
 function mockUniverse () {
   return {
-    store: mockStore(),
-    getStore: function () { return this.store },
+    setItems: expect.createSpy(),
+    relocate: expect.createSpy(),
   }
 }
 
 describe('preface', () => {
   it('initializes items', () => {
     const universe = mockUniverse()
-    preface.begin(
-      {items: [TestItem]},
-      universe
-    )
-    const mockDispatch = universe.store.dispatch
-    expect(mockDispatch).toHaveBeenCalled()
 
-    const dispatchAction = mockDispatch.calls[0].arguments[0]
-    expect(dispatchAction).toMatch({type: Actions.SET_ITEMS})
-    expect(dispatchAction.payload.get('TestItem')).toBeA(TestItem)
+    preface.begin({items: [TestItem]}, universe)
+    expect(universe.setItems).toHaveBeenCalled()
+    const testItem = universe.setItems.calls[0].arguments[0].get('TestItem')
+    expect(testItem).toBeA(TestItem)
+    expect(testItem.universe).toBe(universe)
+  })
+
+  it('sets the initial location of items', () => {
+    const universe = mockUniverse()
+    preface.begin({items: [TestItem]}, universe)
+    expect(universe.relocate).toHaveBeenCalled('TestItem', 'TheAbyss')
+    expect(universe.relocate).toHaveBeenCalledWith('TestItem', 'TheAbyss')
   })
 })
