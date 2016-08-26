@@ -1,9 +1,10 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
+import Immutable from 'immutable'
 
 import Universe from 'watif/master/universe'
-import * as Actions from 'watif/master/Actions'
+import * as Actions from 'watif/master/actions'
 
 describe('Universe', () => {
   let pluginReducerSpy = null
@@ -40,17 +41,27 @@ describe('Universe', () => {
   }
 
   const makeUniverse = (store) => {
-    return new Universe(
+    const universe = new Universe(
       makeStory(), {
         adapter: makeAdapter(),
         store: store,
+        preface: {begin: expect.createSpy()},
       }
     )
+    const testItem = new TestItem()
+    universe.getStore().dispatch(Actions.setItems(Immutable.fromJS({
+      TestItem: testItem,
+    })))
+    return universe
   }
 
-  it('initializes and finds items', () => {
+  it('finds items', () => {
     const universe = makeUniverse()
-    expect(universe.findItem('TestItem')).toBeA(TestItem)
+    const testItem = new TestItem()
+    universe.getStore().dispatch(Actions.setItems(Immutable.fromJS({
+      TestItem: testItem,
+    })))
+    expect(universe.findItem('TestItem')).toBe(testItem)
   })
 
   it('calls plugin reducer', () => {
