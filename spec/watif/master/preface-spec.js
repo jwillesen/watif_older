@@ -9,6 +9,7 @@ class TestItem {
   }
 
   initialLocation () { return 'TheAbyss' }
+  initialState () { return {foo: 'bar'} }
 }
 
 function mockUniverse () {
