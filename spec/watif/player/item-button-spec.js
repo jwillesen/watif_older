@@ -3,7 +3,7 @@
 import expect from 'expect'
 import React from 'react'
 import {mount} from 'enzyme'
-import ItemButton from 'watif/player/item-button'
+import ItemButton from 'watif/display/item-button'
 
 describe('ItemButton', () => {
   it('renders a button', () => {

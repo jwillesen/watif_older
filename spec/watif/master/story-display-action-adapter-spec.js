@@ -1,20 +1,20 @@
 /* eslint-env mocha */
 
 import expect from 'expect'
-import StoryPlayerActionAdapter from 'watif/master/story-player-action-adapter'
+import StoryDisplayActionAdapter from 'watif/master/story-display-action-adapter'
 
-describe('StoryPlayerActionAdapter', () => {
+describe('StoryDisplayActionAdapter', () => {
   const createJailed = () => {
     return {
       setInterface: expect.createSpy(),
-      remote: { setPlayerState: expect.createSpy() },
+      remote: { setDisplayState: expect.createSpy() },
     }
   }
 
   it('registers api with jailed', () => {
     const jailed = createJailed()
     // eslint-disable-next-line no-unused-vars
-    const adapter = new StoryPlayerActionAdapter({}, {application: jailed})
+    const adapter = new StoryDisplayActionAdapter({}, {application: jailed})
     expect(jailed.setInterface).toHaveBeenCalled()
   })
 
@@ -24,17 +24,17 @@ describe('StoryPlayerActionAdapter', () => {
       examineItem: expect.createSpy(),
       selectVerb: expect.createSpy(),
     }
-    const adapter = new StoryPlayerActionAdapter(callbacks, {application: jailed})
-    adapter.handlePlayerItemSelected('42')
+    const adapter = new StoryDisplayActionAdapter(callbacks, {application: jailed})
+    adapter.handleDisplayItemSelected('42')
     expect(callbacks.examineItem).toHaveBeenCalledWith('42')
-    adapter.handlePlayerVerbSelected('frob', 'mug', 'handle')
+    adapter.handleDisplayVerbSelected('frob', 'mug', 'handle')
     expect(callbacks.selectVerb).toHaveBeenCalledWith('frob', 'mug', 'handle')
   })
 
   it('calls remote method', () => {
     const jailed = createJailed()
-    const adapter = new StoryPlayerActionAdapter({}, {application: jailed})
-    adapter.sendPlayerState({health: 'incapacitated'})
-    expect(jailed.remote.setPlayerState).toHaveBeenCalledWith({health: 'incapacitated'})
+    const adapter = new StoryDisplayActionAdapter({}, {application: jailed})
+    adapter.sendDisplayState({health: 'incapacitated'})
+    expect(jailed.remote.setDisplayState).toHaveBeenCalledWith({health: 'incapacitated'})
   })
 })

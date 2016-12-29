@@ -3,7 +3,7 @@
 import expect from 'expect'
 import React from 'react'
 import {shallow, mount} from 'enzyme'
-import WatextView from 'watif/player/watext-view'
+import WatextView from 'watif/display/watext-view'
 import Types from 'watif/watext/types'
 
 describe('WatextView', () => {
