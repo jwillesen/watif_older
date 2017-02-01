@@ -17,14 +17,12 @@ module.exports = {
   },
 
   resolve: {
-    root: [
-      path.join(__dirname, 'lib'),
-    ],
+    modules: [path.join(__dirname, 'lib'), 'node_modules'],
   },
 
-  postcss: function () {
-    return [autoprefixer]
-  },
+  // postcss: function () {
+  //   return [autoprefixer]
+  // },
 
   plugins: [
     new webpack.DefinePlugin({
@@ -42,22 +40,40 @@ module.exports = {
   },
 
   module: {
-    preLoaders: [{
-      test: /\.js$/,
-      loader: 'eslint',
-      include: [path.resolve('lib'), path.resolve('spec')],
-    }],
-
-    loaders: [
+    rules: [
       {
+        enforce: 'pre',
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'eslint-loader',
+        include: [path.resolve('lib'), path.resolve('spec')],
+      }, {
+        test: /\.js$/,
+        loader: 'babel-loader',
         include: [path.resolve('lib')],
-      },
-      { test: /\.json$/, loader: 'json' },
-      { test: /\.scss$/, loader: 'style!css!postcss!sass', exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style!css!postcss', exclude: /node_modules/ },
+      }, {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              // ident is temporary until webpack 2.3
+              ident: 'postcss',
+              plugins: () => [require('autoprefixer')],
+            },
+          },
+          'sass-loader',
+        ],
+        exclude: /node_modules/,
+      }, {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+        ],
+        exclude: /node_modules/ },
     ],
   },
-
 }

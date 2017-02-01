@@ -3,10 +3,10 @@
 var path = require('path')
 var webpackConfig = require('./webpack.config.js')
 
-webpackConfig.module.loaders[0].loader = 'babel-istanbul'
-webpackConfig.module.loaders.unshift({
+webpackConfig.module.rules[1].loader = ['babel-istanbul-loader']
+webpackConfig.module.rules.unshift({
   test: /\.js$/,
-  loader: 'babel',
+  loaders: ['babel-loader'],
   include: [path.resolve('spec')],
 })
 

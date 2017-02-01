@@ -31,11 +31,14 @@ describe('elementToWatext', () => {
       <text>there is <item id='rustyKey'>a rusty key</item> on the floor</text>
     )
     expect(result).toEqual(
-      { type: 'text', text: [
-        'there is ',
-        { type: 'item', id: 'rustyKey', text: 'a rusty key' },
-        ' on the floor',
-      ]}
+      {
+        type: 'text',
+        text: [
+          'there is ',
+          { type: 'item', id: 'rustyKey', text: 'a rusty key' },
+          ' on the floor',
+        ],
+      }
     )
   })
 
